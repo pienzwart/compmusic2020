@@ -10,7 +10,8 @@ The music that Pim listens to is more danceable (M = 0.72, SD = 0.13) than the m
 
 ![image of plot](Rplot.1.png)
 
-To make this more clear, I made a figure of the loudness. Here we see that Pim is more specific and I am more diverse and stable. Now I understand also the huge standard deviation.
+
+Unfortunately, this figure won't show up in Github... And I don't know why because I tried a many times and I do exactly the same as I did with the other figures. So if someone has tips or tricks or knows what I'm doing wrong...
 
 ![image loudness](loudness violin.png)
 

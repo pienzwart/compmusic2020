@@ -3,6 +3,7 @@ Computational Musicology
 
 For my corpus, I would like to compare my Spotify Wrapped playlist of 2019 to the one of my boyfriend, Pim. Our taste in music is very different and those lists are representing this difference. I think it’s interesting to compare these two playlists. I’m more into soft pop music, singer-/songwriters, also a little classical music, film music, etc. And Pim is more into Drum & Bass, Rap, Hiphop, etc. 
 
+![plot](Rplot.1.png)
 
 I have some first findings, measured by Spotify, that are interesting: 
 The music that Pim listens to is more danceable (M = 0.72, SD = 0.13) than the music I listen to (M = 0.48, SD = 0,19). Also there is a difference in energy. Pim’s playlist is way more energetic (M = 0.68, SD = 0.18) than mine (M = 0.34, SD = 0.25).  If we look at the loudness category, Pim’s playlist is louder (M = -6.72, SD = 2.41) than mine (M = -14.1, SD = 8.79). 

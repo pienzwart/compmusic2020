@@ -11,7 +11,7 @@ The music that Pim listens to is more danceable (M = 0.72, SD = 0.13) than the m
 ![image of plot](Rplot.1.png)
 
 
-Unfortunately, this figure won't show up in Github... And I don't know why because I tried a many times and I do exactly the same as I did with the other figures. So if anyone has tips or tricks or knows what I'm doing wrong...
+Unfortunately, this 'loudness' figure won't show up in Github (see below)... And I don't know why because I tried a many times and I do exactly the same as I did with the other figures. So if anyone has tips or tricks or knows what I'm doing wrong...
 
 ![image loudness](Loudness violin.png)
 

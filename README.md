@@ -8,7 +8,7 @@ For my corpus, I would like to compare my Spotify Wrapped playlist of 2019 to th
 I have some first findings, measured by Spotify, that are interesting: 
 The music that Pim listens to is more danceable (M = 0.72, SD = 0.13) than the music I listen to (M = 0.48, SD = 0,19). Also there is a difference in energy. Pim’s playlist is way more energetic (M = 0.68, SD = 0.18) than mine (M = 0.34, SD = 0.25). If we look at the loudness category, Pim’s playlist is louder (M = -6.72, SD = 2.41) than mine (M = -14.1, SD = 8.79). In the figure below, we can see the differences that I discussed above. In Pim's figure, almost all of the points/dots are on the top right. This means, that the the energy and danceability is very high. The loudness is indicated with the size of the points/dots. In my figure, the points/dots are more spread out. But almost all the points/dots are very small. So in the size, Pim is more diverse. 
 
-![image of plot](Rplot.1.png)
+[image of plot](Rplot.1.png)
 
 The keys of our playlists are a lot closer to each other. Pim: (M = 5.43, SD = 3.74), which means in the pitch class F/F#. And mine: (M = 4.54, SD = 3.35), which means in the pitch class E/F. Also the modes are close to each other. Pim: (M = 0.53, SD = 0.5) and mine: (M = 0.57, SD = 0.49). This means that we both listen to major and minor music. But we both have a low valence. We both listen to more negative sounds and sad music. Pim: (M = 0.4, SD = 0.24) and mine: (M = 0.26, SD = 0.19). 
 

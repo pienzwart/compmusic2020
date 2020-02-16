@@ -11,9 +11,9 @@ The music that Pim listens to is more danceable (M = 0.72, SD = 0.13) than the m
 ![image of plot](Rplot.1.png)
 
 
-Unfortunately, this figure won't show up in Github... And I don't know why because I tried a many times and I do exactly the same as I did with the other figures. So if someone has tips or tricks or knows what I'm doing wrong...
+Unfortunately, this figure won't show up in Github... And I don't know why because I tried a many times and I do exactly the same as I did with the other figures. So if anyone has tips or tricks or knows what I'm doing wrong...
 
-![image loudness](loudness violin.png)
+![image loudness](Loudness violin.png)
 
 The keys of our playlists are a lot closer to each other. Pim: (M = 5.43, SD = 3.74), which means in the pitch class F/F#. And mine: (M = 4.54, SD = 3.35), which means in the pitch class E/F. Also the modes are close to each other. Pim: (M = 0.53, SD = 0.5) and mine: (M = 0.57, SD = 0.49). This means that we both listen to major and minor music. But we both have a low valence. We both listen to more negative sounds and sad music. Pim: (M = 0.4, SD = 0.24) and mine: (M = 0.26, SD = 0.19). 
 

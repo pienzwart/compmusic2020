@@ -83,12 +83,6 @@ ggplotly(dancing)
 
 ```
 
-```{r paged.print=TRUE}
-loudness <- spotify_wrapped_2019 %>%
-  ggplot(aes(x = playlist, y = loudness)) +
-  geom_violin()
-
-```
 
 ***
 I have some first findings, measured by Spotify, that are interesting: 
@@ -110,7 +104,7 @@ In the figure we see that Pim is more specific and I am more diverse and stable.
 ### Our similarities!
 
 
-This table shows us a summery of all the Spotify features. In the previous tab I discussed the quite large difference in Danceability, Energy and Loudness. If we look at the Acousticness, is here also a quit large difference. 
+This table shows us a summery of all the Spotify features. In the previous tab I discussed the difference in Danceability, Energy and Loudness. If we look at the Acousticness, there is also a quit large difference. 
 
 But there are also similarities like the Keys of our playlists. If we look at the results of Pim in this category, it would mean in the pitch class: F/F#. My results for Key would mean in pitch class: E/F. 
 
@@ -178,31 +172,34 @@ Valence        | Mean |  SD  |
 
 
 
-### Chromagram
+### Apocalypse and Highest In The Room in a chromagram
 
 ```{r}
-
 apocalypse <- 
     get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX') %>% 
     select(segments) %>% unnest(segments) %>% 
     select(start, duration, pitches)
+highest <- 
+    get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW') %>% 
+    select(segments) %>% unnest(segments) %>% 
+    select(start, duration, pitches)
 
-apocalypse %>% 
-    mutate(pitches = map(pitches, compmus_normalise, 'euclidean')) %>% 
-    compmus_gather_chroma %>% 
-    ggplot(
-        aes(
-            x = start + duration / 2, 
-            width = duration, 
-            y = pitch_class, 
-            fill = value)) + 
+compmus_long_distance(apocalypse %>% 
+    mutate(pitches = map(pitches, compmus_normalise, 'chebyshev')),
+    highest %>% mutate(pitches = map(pitches, compmus_normalise, 'chebyshev')),
+    feature = pitches, method = 'euclidean') %>% 
+    ggplot(aes(x = xstart + xduration / 2, width = xduration, 
+    y = ystart + yduration / 2, height = yduration, fill = d)) + 
     geom_tile() +
-    labs(x = 'Time (s)', y = NULL, fill = 'Magnitude') +
+    scale_fill_continuous(type = 'viridis', guide = 'none') +
+    labs(x = 'Apocalypse', y = 'Highest In The Room') +
     theme_minimal()
-
 ```
 
-### Testje
+***
+There are only two songs that appear in both our playlists. Those songs are Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott. These two songs are not even close to each other. That's why I have put them together in a chromagram. 
+
+### The tibre in Apocalypse by Cigarettes After Sex
 
 ```{r}
 
@@ -220,18 +217,6 @@ apocalypse_timbre <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX') %>%
                 compmus_summarise, timbre, 
                 method = 'mean'))
 
-apocalypse_timbre %>% 
-    compmus_gather_timbre %>% 
-    ggplot(
-        aes(
-            x = start + duration / 2, 
-            width = duration, 
-            y = basis, 
-            fill = value)) + 
-    geom_tile() +
-    labs(x = 'Time (s)', y = NULL, fill = 'Magnitude') +
-    scale_fill_viridis_c(option = 'E') +
-    theme_classic()
 
 
 apocalypse_timbre %>% 
@@ -248,4 +233,42 @@ apocalypse_timbre %>%
     scale_fill_viridis_c(option = 'E', guide = 'none') +
     theme_classic() +
     labs(x = '', y = '')
+
+
+
+highest_timbre <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW') %>% 
+    compmus_align(beats, segments) %>% 
+    select(beats) %>% unnest(beats) %>% 
+    mutate(
+        pitches = 
+            map(segments, 
+                compmus_summarise, pitches, 
+                method = 'rms', norm = 'euclidean')) %>% 
+    mutate(
+        timbre = 
+            map(segments, 
+                compmus_summarise, timbre, 
+                method = 'mean'))
+
+
+
+highest_timbre %>% 
+    compmus_self_similarity(timbre, 'cosine') %>% 
+    ggplot(
+        aes(
+            x = xstart + xduration / 2, 
+            width = xduration,
+            y = ystart + yduration / 2,
+            height = yduration,
+            fill = d)) + 
+    geom_tile() +
+    coord_fixed() +
+    scale_fill_viridis_c(option = 'E', guide = 'none') +
+    theme_classic() +
+    labs(x = '', y = '')
+
 ```
+
+*** 
+
+ 

@@ -199,7 +199,7 @@ compmus_long_distance(apocalypse %>%
 ***
 There are only two songs that appear in both our playlists. Those songs are Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott. These two songs are not even close to each other. That's why I have put them together in a chromagram. 
 
-### The tibre in Apocalypse by Cigarettes After Sex
+### The timbre in Apocalypse by Cigarettes After Sex
 
 ```{r}
 
@@ -271,4 +271,71 @@ highest_timbre %>%
 
 *** 
 
- 
+
+### self-similarity 
+
+```{r}
+
+apocalypse_chroma <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX') %>% 
+    compmus_align(bars, segments) %>% 
+    select(bars) %>% unnest(bars) %>% 
+    mutate(
+        pitches = 
+            map(segments, 
+                compmus_summarise, pitches, 
+                method = 'mean', norm = 'manhattan')) %>% 
+    mutate(
+        chroma = 
+            map(segments, 
+                compmus_summarise, timbre, 
+                method = 'mean'))
+
+
+
+apocalypse_chroma %>% 
+    compmus_self_similarity(chroma, 'manhattan') %>% 
+    ggplot(
+        aes(
+            x = xstart + xduration / 2, 
+            width = xduration,
+            y = ystart + yduration / 2,
+            height = yduration,
+            fill = d)) + 
+    geom_tile() +
+    coord_fixed() +
+    scale_fill_viridis_c(option = 'E', guide = 'none') +
+    theme_classic() +
+    labs(x = '', y = '')
+
+
+highest_chroma <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW') %>% 
+    compmus_align(bars, segments) %>% 
+    select(bars) %>% unnest(bars) %>% 
+    mutate(
+        pitches = 
+            map(segments, 
+                compmus_summarise, pitches, 
+                method = 'mean', norm = 'manhattan')) %>% 
+    mutate(
+        chroma = 
+            map(segments, 
+                compmus_summarise, timbre, 
+                method = 'mean'))
+
+
+
+highest_chroma %>% 
+    compmus_self_similarity(chroma, 'manhattan') %>% 
+    ggplot(
+        aes(
+            x = xstart + xduration / 2, 
+            width = xduration,
+            y = ystart + yduration / 2,
+            height = yduration,
+            fill = d)) + 
+    geom_tile() +
+    coord_fixed() +
+    scale_fill_viridis_c(option = 'E', guide = 'none') +
+    theme_classic() +
+    labs(x = '', y = '')
+```

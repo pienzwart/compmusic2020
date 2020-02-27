@@ -22,6 +22,142 @@ source('spotify.R')
 library(compmus)
 ```
 
+### The Timbre and Chroma in Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott.
+
+```{r}
+
+apocalypse_timbre <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX') %>% 
+    compmus_align(bars, segments) %>% 
+    select(bars) %>% unnest(bars) %>% 
+    mutate(
+        pitches = 
+            map(segments, 
+                compmus_summarise, pitches, 
+                method = 'rms', norm = 'euclidean')) %>% 
+    mutate(
+        timbre = 
+            map(segments, 
+                compmus_summarise, timbre, 
+                method = 'mean'))
+
+
+
+apocalypse_timbre %>% 
+    compmus_self_similarity(timbre, 'cosine') %>% 
+    ggplot(
+        aes(
+            x = xstart + xduration / 2, 
+            width = xduration,
+            y = ystart + yduration / 2,
+            height = yduration,
+            fill = d)) + 
+    geom_tile() +
+    coord_fixed() +
+    scale_fill_viridis_c(option = 'E', guide = 'none') +
+    theme_classic() +
+    labs(x = '', y = '', title = 'Apocalypse', subtitle = 'Timbre')
+
+
+
+highest_timbre <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW') %>% 
+    compmus_align(beats, segments) %>% 
+    select(beats) %>% unnest(beats) %>% 
+    mutate(
+        pitches = 
+            map(segments, 
+                compmus_summarise, pitches, 
+                method = 'rms', norm = 'euclidean')) %>% 
+    mutate(
+        timbre = 
+            map(segments, 
+                compmus_summarise, timbre, 
+                method = 'mean'))
+
+
+
+highest_timbre %>% 
+    compmus_self_similarity(timbre, 'cosine') %>% 
+    ggplot(
+        aes(
+            x = xstart + xduration / 2, 
+            width = xduration,
+            y = ystart + yduration / 2,
+            height = yduration,
+            fill = d)) + 
+    geom_tile() +
+    coord_fixed() +
+    scale_fill_viridis_c(option = 'E', guide = 'none') +
+    theme_classic() +
+    labs(x = '', y = '', title = 'Highest In The Room', subtitle = 'Timbre')
+
+
+apocalypse_chroma <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX') %>% 
+    compmus_align(bars, segments) %>% 
+    select(bars) %>% unnest(bars) %>% 
+    mutate(
+        pitches = 
+            map(segments, 
+                compmus_summarise, pitches, 
+                method = 'mean', norm = 'manhattan')) %>% 
+    mutate(
+        chroma = 
+            map(segments, 
+                compmus_summarise, timbre, 
+                method = 'mean'))
+
+
+
+apocalypse_chroma %>% 
+    compmus_self_similarity(chroma, 'manhattan') %>% 
+    ggplot(
+        aes(
+            x = xstart + xduration / 2, 
+            width = xduration,
+            y = ystart + yduration / 2,
+            height = yduration,
+            fill = d)) + 
+    geom_tile() +
+    coord_fixed() +
+    scale_fill_viridis_c(option = 'E', guide = 'none') +
+    theme_classic() +
+    labs(x = '', y = '', title = 'Apocalypse', subtitle = 'Chroma')
+
+
+highest_chroma <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW') %>% 
+    compmus_align(bars, segments) %>% 
+    select(bars) %>% unnest(bars) %>% 
+    mutate(
+        pitches = 
+            map(segments, 
+                compmus_summarise, pitches, 
+                method = 'mean', norm = 'manhattan')) %>% 
+    mutate(
+        chroma = 
+            map(segments, 
+                compmus_summarise, timbre, 
+                method = 'mean'))
+
+
+
+highest_chroma %>% 
+    compmus_self_similarity(chroma, 'manhattan') %>% 
+    ggplot(
+        aes(
+            x = xstart + xduration / 2, 
+            width = xduration,
+            y = ystart + yduration / 2,
+            height = yduration,
+            fill = d)) + 
+    geom_tile() +
+    coord_fixed() +
+    scale_fill_viridis_c(option = 'E', guide = 'none') +
+    theme_classic() +
+    labs(x = '', y = '', title = 'Highest In The Room', subtitle = 'Chroma')
+```
+
+*** 
+The only two songs that appear in both our playlists, Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott, are very different in genre. Apocalypse is slowly and Highest In The Room is hiphop. So it could be interesting to look at the differences in the self-similarity matrixes. I don't really know how I can make it more workable, so that they are for example, standing next to each other.
+
 ### Pien versus Pim
 
 For my corpus, I would like to compare my Spotify Wrapped playlist of 2019 to the one of my boyfriend, Pim. Our taste in music is very different and those lists are representing this difference. I think it’s interesting to compare these two playlists. I’m more into soft pop music, singer-/songwriters, also a little classical music, film music, etc. And Pim is more into Drum & Bass, Rap, Hiphop, etc. But we appreciate each others taste of music increasingly since we've been together. For a research question I would think of how different our music tastes really are. At first glance, they are very different. But maybe there are some underlying similarities. And what those differenses and similarities mean.
@@ -184,22 +320,28 @@ highest <-
     select(segments) %>% unnest(segments) %>% 
     select(start, duration, pitches)
 
-compmus_long_distance(apocalypse %>% 
-    mutate(pitches = map(pitches, compmus_normalise, 'chebyshev')),
+compmus_long_distance(
+    apocalypse %>% mutate(pitches = map(pitches, compmus_normalise, 'chebyshev')),
     highest %>% mutate(pitches = map(pitches, compmus_normalise, 'chebyshev')),
-    feature = pitches, method = 'euclidean') %>% 
-    ggplot(aes(x = xstart + xduration / 2, width = xduration, 
-    y = ystart + yduration / 2, height = yduration, fill = d)) + 
+    feature = pitches,
+    method = 'euclidean') %>% 
+    ggplot(
+        aes(
+            x = xstart + xduration / 2, 
+            width = xduration,
+            y = ystart + yduration / 2,
+            height = yduration,
+            fill = d)) + 
     geom_tile() +
     scale_fill_continuous(type = 'viridis', guide = 'none') +
-    labs(x = 'Apocalypse', y = 'Highest In The Room') +
+    labs(x = 'Apocalypse', y = 'The Highest In The Room') +
     theme_minimal()
 ```
 
 ***
-There are only two songs that appear in both our playlists. Those songs are Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott. These two songs are not even close to each other. That's why I have put them together in a chromagram. 
+There are only two songs that appear in both our playlists. Those songs are Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott. These songs are very very different. That's why I have put them together in a chromagram. 
 
-### The timbre in Apocalypse by Cigarettes After Sex
+### The Timbre and Chroma in Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott.
 
 ```{r}
 
@@ -232,7 +374,7 @@ apocalypse_timbre %>%
     coord_fixed() +
     scale_fill_viridis_c(option = 'E', guide = 'none') +
     theme_classic() +
-    labs(x = '', y = '')
+    labs(x = '', y = '', title = 'Apocalypse', subtitle = 'Timbre')
 
 
 
@@ -265,16 +407,8 @@ highest_timbre %>%
     coord_fixed() +
     scale_fill_viridis_c(option = 'E', guide = 'none') +
     theme_classic() +
-    labs(x = '', y = '')
+    labs(x = '', y = '', title = 'Highest In The Room', subtitle = 'Timbre')
 
-```
-
-*** 
-
-
-### self-similarity 
-
-```{r}
 
 apocalypse_chroma <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX') %>% 
     compmus_align(bars, segments) %>% 
@@ -305,7 +439,7 @@ apocalypse_chroma %>%
     coord_fixed() +
     scale_fill_viridis_c(option = 'E', guide = 'none') +
     theme_classic() +
-    labs(x = '', y = '')
+    labs(x = '', y = '', title = 'Apocalypse', subtitle = 'Chroma')
 
 
 highest_chroma <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW') %>% 
@@ -337,5 +471,9 @@ highest_chroma %>%
     coord_fixed() +
     scale_fill_viridis_c(option = 'E', guide = 'none') +
     theme_classic() +
-    labs(x = '', y = '')
+    labs(x = '', y = '', title = 'Highest In The Room', subtitle = 'Chroma')
 ```
+
+*** 
+The only two songs that appear in both our playlists, Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott, are very different in genre. Apocalypse is slowly and Highest In The Room is hiphop. So it could be interesting to look at the differences in the self-similarity matrixes. I don't really know how I can make it more workable, so that they are for example, standing next to each other. 
+

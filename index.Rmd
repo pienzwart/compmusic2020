@@ -153,10 +153,11 @@ highest_chroma %>%
     scale_fill_viridis_c(option = 'E', guide = 'none') +
     theme_classic() +
     labs(x = '', y = '', title = 'Highest In The Room', subtitle = 'Chroma')
+
 ```
 
 *** 
-The only two songs that appear in both our playlists, Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott, are very different in genre. Apocalypse is slowly and Highest In The Room is hiphop. So it could be interesting to look at the differences in the self-similarity matrixes. I don't really know how I can make it more workable, so that they are for example, standing next to each other.
+There are only two songs that appear in both our playlists: Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott. These songs are very different in genre. Apocalypse is slow pop and Highest In The Room is hiphop. So it could be interesting to look at the differences in the self-similarity matrixes. I don't really know how I can make it more workable, so that they are for example, standing next to each other. In all the figures I see a very clear line and a recurring pattern. But I don't see a lot of differences in timbre and chroma. I see almost the same things in timbre and chroma in the figures of Apocalypse. And the same things in timbre and chroma in the figures of Highest In The Room. I do see difference in the patterns of the two songs but I don't know exactly what this difference means... In the visualization of Highest In The Room, there is a clear pattern in the beginning but after two thirds of the song, there is a big change. It becomes instrumental till the end of the song. You can see this in the timbre visualization between 100 and 150. In the song Apocalypse, there is more structure in the pattern but also some differences. In the vocal part, there are some little changes but the instrumental part is more like a river, it continues. I think that you can see that in both the visualizations timbre and chroma. 
 
 ### Pien versus Pim
 
@@ -475,5 +476,4 @@ highest_chroma %>%
 ```
 
 *** 
-The only two songs that appear in both our playlists, Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott, are very different in genre. Apocalypse is slowly and Highest In The Room is hiphop. So it could be interesting to look at the differences in the self-similarity matrixes. I don't really know how I can make it more workable, so that they are for example, standing next to each other. 
-
+There are only two songs that appear in both our playlists: Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott. These songs are very different in genre. Apocalypse is slow pop and Highest In The Room is hiphop. So it could be interesting to look at the differences in the self-similarity matrixes. I don't really know how I can make it more workable, so that they are for example, standing next to each other. In all the figures I see a very clear line and a recurring pattern. But I don't see a lot of differences in timbre and chroma. I see almost the same things in timbre and chroma in the figures of Apocalypse. And the same things in timbre and chroma in the figures of Highest In The Room. I do see difference in the patterns of the two songs but I don't know exactly what this difference means... In the visualization of Highest In The Room, there is a clear pattern in the beginning but after two thirds of the song, there is a big change. It becomes instrumental till the end of the song. You can see this in the timbre visualization between 100 and 150. In the song Apocalypse, there is more structure in the pattern but also some differences. In the vocal part, there are some little changes but the instrumental part is more like a river, it continues. I think that you can see that in both the visualizations timbre and chroma. 

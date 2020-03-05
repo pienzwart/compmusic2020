@@ -208,7 +208,8 @@ dancing <- spotify_wrapped_2019 %>%    # Start with awards.
   labs(                        # Make the titles nice.
     x = "Danceability",
     y = "Energy",
-    colour = "Mode"
+    colour = "Mode",
+    size = "Loudness"
   )
 
 
@@ -347,8 +348,8 @@ There are only two songs that appear in both our playlists. Those songs are Apoc
 ```{r}
 
 apocalypse_timbre <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX') %>% 
-    compmus_align(bars, segments) %>% 
-    select(bars) %>% unnest(bars) %>% 
+    compmus_align(sections, segments) %>% 
+    select(sections) %>% unnest(sections) %>% 
     mutate(
         pitches = 
             map(segments, 
@@ -380,8 +381,8 @@ apocalypse_timbre %>%
 
 
 highest_timbre <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW') %>% 
-    compmus_align(beats, segments) %>% 
-    select(beats) %>% unnest(beats) %>% 
+    compmus_align(sections, segments) %>% 
+    select(sections) %>% unnest(sections) %>% 
     mutate(
         pitches = 
             map(segments, 
@@ -412,8 +413,8 @@ highest_timbre %>%
 
 
 apocalypse_chroma <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX') %>% 
-    compmus_align(bars, segments) %>% 
-    select(bars) %>% unnest(bars) %>% 
+    compmus_align(sections, segments) %>% 
+    select(sections) %>% unnest(sections) %>% 
     mutate(
         pitches = 
             map(segments, 
@@ -444,8 +445,8 @@ apocalypse_chroma %>%
 
 
 highest_chroma <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW') %>% 
-    compmus_align(bars, segments) %>% 
-    select(bars) %>% unnest(bars) %>% 
+    compmus_align(sections, segments) %>% 
+    select(sections) %>% unnest(sections) %>% 
     mutate(
         pitches = 
             map(segments, 

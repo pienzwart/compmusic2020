@@ -22,142 +22,131 @@ source('spotify.R')
 library(compmus)
 ```
 
-### The Timbre and Chroma in Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott.
+### Apocalypse and Highest in The Room in keygrams
 
 ```{r}
+circshift <- function(v, n) {if (n == 0) v else c(tail(v, n), head(v, -n))}
+                                    
+    # C     C#    D     Eb    E     F     F#    G     Ab    A     Bb    B 
+major_chord <- 
+    c(1,    0,    0,    0,    1,    0,    0,    1,    0,    0,    0,    0)
+minor_chord <- 
+    c(1,    0,    0,    1,    0,    0,    0,    1,    0,    0,    0,    0)
+seventh_chord <- 
+    c(1,    0,    0,    0,    1,    0,    0,    1,    0,    0,    1,    0)
 
-apocalypse_timbre <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX') %>% 
-    compmus_align(bars, segments) %>% 
-    select(bars) %>% unnest(bars) %>% 
+major_key <- 
+    c(6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88)
+minor_key <-
+    c(6.33, 2.68, 3.52, 5.38, 2.60, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17)
+
+chord_templates <-
+    tribble(
+        ~name  , ~template,
+        'Gb:7'  , circshift(seventh_chord,  6),
+        'Gb:maj', circshift(major_chord,    6),
+        'Bb:min', circshift(minor_chord,   10),
+        'Db:maj', circshift(major_chord,    1),
+        'F:min' , circshift(minor_chord,    5),
+        'Ab:7'  , circshift(seventh_chord,  8),
+        'Ab:maj', circshift(major_chord,    8),
+        'C:min' , circshift(minor_chord,    0),
+        'Eb:7'  , circshift(seventh_chord,  3),
+        'Eb:maj', circshift(major_chord,    3),
+        'G:min' , circshift(minor_chord,    7),
+        'Bb:7'  , circshift(seventh_chord, 10),
+        'Bb:maj', circshift(major_chord,   10),
+        'D:min' , circshift(minor_chord,    2),
+        'F:7'   , circshift(seventh_chord,  5),
+        'F:maj' , circshift(major_chord,    5),
+        'A:min' , circshift(minor_chord,    9),
+        'C:7'   , circshift(seventh_chord,  0),
+        'C:maj' , circshift(major_chord,    0),
+        'E:min' , circshift(minor_chord,    4),
+        'G:7'   , circshift(seventh_chord,  7),
+        'G:maj' , circshift(major_chord,    7),
+        'B:min' , circshift(minor_chord,   11),
+        'D:7'   , circshift(seventh_chord,  2),
+        'D:maj' , circshift(major_chord,    2),
+        'F#:min', circshift(minor_chord,    6),
+        'A:7'   , circshift(seventh_chord,  9),
+        'A:maj' , circshift(major_chord,    9),
+        'C#:min', circshift(minor_chord,    1),
+        'E:7'   , circshift(seventh_chord,  4),
+        'E:maj' , circshift(major_chord,    4),
+        'G#:min', circshift(minor_chord,    8),
+        'B:7'   , circshift(seventh_chord, 11),
+        'B:maj' , circshift(major_chord,   11),
+        'D#:min', circshift(minor_chord,    3))
+
+key_templates <-
+    tribble(
+        ~name    , ~template,
+        'Gb:maj', circshift(major_key,  6),
+        'Bb:min', circshift(minor_key, 10),
+        'Db:maj', circshift(major_key,  1),
+        'F:min' , circshift(minor_key,  5),
+        'Ab:maj', circshift(major_key,  8),
+        'C:min' , circshift(minor_key,  0),
+        'Eb:maj', circshift(major_key,  3),
+        'G:min' , circshift(minor_key,  7),
+        'Bb:maj', circshift(major_key, 10),
+        'D:min' , circshift(minor_key,  2),
+        'F:maj' , circshift(major_key,  5),
+        'A:min' , circshift(minor_key,  9),
+        'C:maj' , circshift(major_key,  0),
+        'E:min' , circshift(minor_key,  4),
+        'G:maj' , circshift(major_key,  7),
+        'B:min' , circshift(minor_key, 11),
+        'D:maj' , circshift(major_key,  2),
+        'F#:min', circshift(minor_key,  6),
+        'A:maj' , circshift(major_key,  9),
+        'C#:min', circshift(minor_key,  1),
+        'E:maj' , circshift(major_key,  4),
+        'G#:min', circshift(minor_key,  8),
+        'B:maj' , circshift(major_key, 11),
+        'D#:min', circshift(minor_key,  3))
+
+
+highest_key <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW') %>% 
+    compmus_align(sections, segments) %>% 
+    select(sections) %>% unnest(sections) %>% 
     mutate(
         pitches = 
             map(segments, 
                 compmus_summarise, pitches, 
-                method = 'rms', norm = 'euclidean')) %>% 
-    mutate(
-        timbre = 
-            map(segments, 
-                compmus_summarise, timbre, 
-                method = 'mean'))
+                method = 'mean', norm = 'manhattan'))
 
-
-
-apocalypse_timbre %>% 
-    compmus_self_similarity(timbre, 'cosine') %>% 
+highest_key %>% 
+    compmus_match_pitch_template(chord_templates, 'euclidean', 'manhattan') %>% 
     ggplot(
-        aes(
-            x = xstart + xduration / 2, 
-            width = xduration,
-            y = ystart + yduration / 2,
-            height = yduration,
-            fill = d)) + 
+        aes(x = start + duration / 2, width = duration, y = name, fill = d)) +
     geom_tile() +
-    coord_fixed() +
-    scale_fill_viridis_c(option = 'E', guide = 'none') +
-    theme_classic() +
-    labs(x = '', y = '', title = 'Apocalypse', subtitle = 'Timbre')
+    scale_fill_viridis_c(option = 'A', guide = 'none') +
+    theme_minimal() +
+    labs(x = 'Time (s)', y = '', title = 'Highest In The Room', subtitle = 'Keygram')
 
-
-
-highest_timbre <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW') %>% 
-    compmus_align(beats, segments) %>% 
-    select(beats) %>% unnest(beats) %>% 
+apocalypse_key <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX') %>% 
+    compmus_align(sections, segments) %>% 
+    select(sections) %>% unnest(sections) %>% 
     mutate(
         pitches = 
             map(segments, 
                 compmus_summarise, pitches, 
-                method = 'rms', norm = 'euclidean')) %>% 
-    mutate(
-        timbre = 
-            map(segments, 
-                compmus_summarise, timbre, 
-                method = 'mean'))
+                method = 'mean', norm = 'manhattan'))
 
-
-
-highest_timbre %>% 
-    compmus_self_similarity(timbre, 'cosine') %>% 
+apocalypse_key %>% 
+    compmus_match_pitch_template(chord_templates, 'euclidean', 'manhattan') %>% 
     ggplot(
-        aes(
-            x = xstart + xduration / 2, 
-            width = xduration,
-            y = ystart + yduration / 2,
-            height = yduration,
-            fill = d)) + 
+        aes(x = start + duration / 2, width = duration, y = name, fill = d)) +
     geom_tile() +
-    coord_fixed() +
-    scale_fill_viridis_c(option = 'E', guide = 'none') +
-    theme_classic() +
-    labs(x = '', y = '', title = 'Highest In The Room', subtitle = 'Timbre')
-
-
-apocalypse_chroma <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX') %>% 
-    compmus_align(bars, segments) %>% 
-    select(bars) %>% unnest(bars) %>% 
-    mutate(
-        pitches = 
-            map(segments, 
-                compmus_summarise, pitches, 
-                method = 'mean', norm = 'manhattan')) %>% 
-    mutate(
-        chroma = 
-            map(segments, 
-                compmus_summarise, timbre, 
-                method = 'mean'))
-
-
-
-apocalypse_chroma %>% 
-    compmus_self_similarity(chroma, 'manhattan') %>% 
-    ggplot(
-        aes(
-            x = xstart + xduration / 2, 
-            width = xduration,
-            y = ystart + yduration / 2,
-            height = yduration,
-            fill = d)) + 
-    geom_tile() +
-    coord_fixed() +
-    scale_fill_viridis_c(option = 'E', guide = 'none') +
-    theme_classic() +
-    labs(x = '', y = '', title = 'Apocalypse', subtitle = 'Chroma')
-
-
-highest_chroma <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW') %>% 
-    compmus_align(bars, segments) %>% 
-    select(bars) %>% unnest(bars) %>% 
-    mutate(
-        pitches = 
-            map(segments, 
-                compmus_summarise, pitches, 
-                method = 'mean', norm = 'manhattan')) %>% 
-    mutate(
-        chroma = 
-            map(segments, 
-                compmus_summarise, timbre, 
-                method = 'mean'))
-
-
-
-highest_chroma %>% 
-    compmus_self_similarity(chroma, 'manhattan') %>% 
-    ggplot(
-        aes(
-            x = xstart + xduration / 2, 
-            width = xduration,
-            y = ystart + yduration / 2,
-            height = yduration,
-            fill = d)) + 
-    geom_tile() +
-    coord_fixed() +
-    scale_fill_viridis_c(option = 'E', guide = 'none') +
-    theme_classic() +
-    labs(x = '', y = '', title = 'Highest In The Room', subtitle = 'Chroma')
-
+    scale_fill_viridis_c(option = 'A', guide = 'none') +
+    theme_minimal() +
+    labs(x = 'Time (s)', y = '', title = 'Apocalypse', subtitle = 'Keygram')
 ```
 
 *** 
-There are only two songs that appear in both our playlists: Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott. These songs are very different in genre. Apocalypse is slow pop and Highest In The Room is hiphop. So it could be interesting to look at the differences in timbre and chroma self-similarity matrixes. I don't really know how I can make it more workable, so that they are, for example, standing next to each other. In all the figures I see a very clear line and a recurring pattern. I don't see a lot of differences in timbre and chroma. But I do see difference in the patterns of the two songs but I don't know exactly what this difference means... In the visualizations of Highest In The Room, there is a clear pattern in the beginning but after two-thirds of the song, there is a big change. It becomes instrumental till the end of the song. You can see this in the timbre visualization between 100 and 150. In the song Apocalypse, there is more structure in the pattern but also some differences. In the vocal part, there are some changes and variations but the instrumental part is more like a river, it continues. I think that you can see that in both the visualizations timbre and chroma. There is a basis that continues.
+Here I made two keygrams about the song 'Apocalypse' and 'Highest In The Room'. These are the only two songs that appear in both our playlists. Because those songs are both very different but they do appear in both our playslists, I thaught it might be interesting to work this out. In the timbre and chroma self-similarity matrixes on the other page, it becomes clear that there is a more structered pattern in Highest in The Room than in Apocalypse. I also see this in the keygrams. In Highest in The Room, there is more structure than in Apocalypse. In Highest in The Room, there is a clear difference between couplets and refrains and then around 150 seconds, it changes to something else. I don't know if the key is really correct because the chords in the song are Dm and Am, until 150 seconds. And this part is correct because there comes a Bb and in the keygram, this one is really dark there. In the keygram of Apocalypse, there is a vague pattern that continues trough the whole song. Also, this keygram is much darker than that of the other song. The keys are almost correct. Only the C#min is not logical.
 
 ### Pien versus Pim
 
@@ -477,10 +466,10 @@ highest_chroma %>%
 ```
 
 *** 
-There are only two songs that appear in both our playlists: Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott. These songs are very different in genre. Apocalypse is slow pop and Highest In The Room is hiphop. So it could be interesting to look at the differences in the self-similarity matrixes. I don't really know how I can make it more workable, so that they are for example, standing next to each other. In all the figures I see a very clear line and a recurring pattern. But I don't see a lot of differences in timbre and chroma. I do see difference in the patterns of the two songs but I don't know exactly what this difference means... In the visualization of Highest In The Room, there is a clear pattern in the beginning but after two-thirds of the song, there is a big change. It becomes instrumental till the end of the song. You can see this in the timbre visualization between 100 and 150. In the song Apocalypse, there is more structure in the pattern but also some differences. In the vocal part, there are some little changes and variations but the instrumental part is more like a river, it continues. I think that you can see that in both the visualizations timbre and chroma. There is a basis that continues. 
+There are only two songs that appear in both our playlists: Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott. These songs are very different in genre. Apocalypse is slow pop and Highest In The Room is hiphop. So it could be interesting to look at the differences in the self-similarity matrixes. In Apocalypse, there is structure in the pattern but also some differences. In the vocal part, there are some little changes and variations but the instrumental part is more like a river, it continues. I think that you can see that in both the visualizations timbre and chroma between 100 and 200. There is a part of the pattern that continous but also a part that changes. In the visualization of Highest In The Room, there is a clear checkerborard pattern in the beginning but after two-thirds of the song, there is a big change. It becomes instrumental till the end of the song. You can see this in the timbre visualization between 100 and 150. The checkerboard pattern dissapears.  
 
 
-### Week 10
+### Apocalypse and Highest in The Room in keygrams
 
 ```{r}
 circshift <- function(v, n) {if (n == 0) v else c(tail(v, n), head(v, -n))}
@@ -602,3 +591,6 @@ apocalypse_key %>%
     theme_minimal() +
     labs(x = 'Time (s)', y = '', title = 'Apocalypse', subtitle = 'Keygram')
 ```
+
+*** 
+Here I made two keygrams about the song 'Apocalypse' and 'Highest In The Room'. These are the only two songs that appear in both our playlists. Because those songs are both very different but they do appear in both our playslists, I thaught it might be interesting to work this out. In the timbre and chroma self-similarity matrixes on the other page, it becomes clear that there is a more structered pattern in Highest in The Room than in Apocalypse. I also see this in the keygrams. In Highest in The Room, there is more structure than in Apocalypse. In Highest in The Room, there is a clear difference between couplets and refrains and then around 150 seconds, it changes to something else. I don't know if the key is really correct because the chords in the song are Dm and Am, until 150 seconds. And this part is correct because there comes a Bb and in the keygram, this one is really dark there. In the keygram of Apocalypse, there is a vague pattern that continues trough the whole song. Also, this keygram is much darker than that of the other song. The keys are almost correct. Only the C#min is not logical.

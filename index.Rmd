@@ -118,7 +118,7 @@ highest_key <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW') %>%
                 method = 'mean', norm = 'manhattan'))
 
 highest_key %>% 
-    compmus_match_pitch_template(chord_templates, 'euclidean', 'manhattan') %>% 
+    compmus_match_pitch_template(key_templates, 'euclidean', 'manhattan') %>% 
     ggplot(
         aes(x = start + duration / 2, width = duration, y = name, fill = d)) +
     geom_tile() +
@@ -136,7 +136,7 @@ apocalypse_key <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX') %>%
                 method = 'mean', norm = 'manhattan'))
 
 apocalypse_key %>% 
-    compmus_match_pitch_template(chord_templates, 'euclidean', 'manhattan') %>% 
+    compmus_match_pitch_template(key_templates, 'euclidean', 'manhattan') %>% 
     ggplot(
         aes(x = start + duration / 2, width = duration, y = name, fill = d)) +
     geom_tile() +
@@ -565,7 +565,7 @@ highest_key <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW') %>%
                 method = 'mean', norm = 'manhattan'))
 
 highest_key %>% 
-    compmus_match_pitch_template(chord_templates, 'euclidean', 'manhattan') %>% 
+    compmus_match_pitch_template(key_templates, 'euclidean', 'manhattan') %>% 
     ggplot(
         aes(x = start + duration / 2, width = duration, y = name, fill = d)) +
     geom_tile() +
@@ -583,7 +583,7 @@ apocalypse_key <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX') %>%
                 method = 'mean', norm = 'manhattan'))
 
 apocalypse_key %>% 
-    compmus_match_pitch_template(chord_templates, 'euclidean', 'manhattan') %>% 
+    compmus_match_pitch_template(key_templates, 'euclidean', 'manhattan') %>% 
     ggplot(
         aes(x = start + duration / 2, width = duration, y = name, fill = d)) +
     geom_tile() +

@@ -146,7 +146,13 @@ apocalypse_key %>%
 ```
 
 *** 
-Here I made two keygrams about the song 'Apocalypse' and 'Highest In The Room'. These are the only two songs that appear in both our playlists. Because those songs are both very different but they do appear in both our playslists, I thaught it might be interesting to work this out. In the timbre and chroma self-similarity matrixes on the other page, it becomes clear that there is a more structered pattern in Highest in The Room than in Apocalypse. I also see this in the keygrams. In Highest in The Room, there is more structure than in Apocalypse. In Highest in The Room, there is a clear difference between couplets and refrains and then around 150 seconds, it changes to something else. I don't know if the key is really correct because the chords in the song are Dm and Am, until 150 seconds. And this part is correct because there comes a Bb and in the keygram, this one is really dark there. In the keygram of Apocalypse, there is a vague pattern that continues trough the whole song. Also, this keygram is much darker than that of the other song. The keys are almost correct. Only the C#min is not logical.
+Here I made two keygrams about the song 'Apocalypse' and 'Highest In The Room'. These are the only two songs that appear in both our playlists. Because those songs are both very different but they do appear in both our playslists, it might be interesting to work this out. In the timbre and chroma self-similarity matrixes on the other page, it becomes clear that there is a more structered pattern in Highest in The Room than in Apocalypse. I also see this in the keygrams.
+
+In Highest in The Room, there is a clear difference between couplets and refrains and around 150 seconds, it changes to something else. I don't know if the kegram is correct because the song in in D minor and the most common chords are Dm and Am. In the keygram the Dm is very dark but the Am isn't.
+
+In the keygram of Apocalypse, there is a vague pattern that continues trough the whole song. Also, this keygram is much darker than that of the other song. This song is in F major but I don't really see this. I do see that Dm is very dark and this is a common chords in this song. 
+
+In both the keygrams there are things that are expected in the key, but also a lot of onexpected things. But if I compare these two keygrams, they have a lot in common, like the C#min, Dmin and Dmaj. And if I look at the chords of the two songs, there are also a few similarities. Like the Dm, Am, Bb and Gm. 
 
 ### Pien versus Pim
 
@@ -593,4 +599,10 @@ apocalypse_key %>%
 ```
 
 *** 
-Here I made two keygrams about the song 'Apocalypse' and 'Highest In The Room'. These are the only two songs that appear in both our playlists. Because those songs are both very different but they do appear in both our playslists, I thaught it might be interesting to work this out. In the timbre and chroma self-similarity matrixes on the other page, it becomes clear that there is a more structered pattern in Highest in The Room than in Apocalypse. I also see this in the keygrams. In Highest in The Room, there is more structure than in Apocalypse. In Highest in The Room, there is a clear difference between couplets and refrains and then around 150 seconds, it changes to something else. I don't know if the key is really correct because the chords in the song are Dm and Am, until 150 seconds. And this part is correct because there comes a Bb and in the keygram, this one is really dark there. In the keygram of Apocalypse, there is a vague pattern that continues trough the whole song. Also, this keygram is much darker than that of the other song. The keys are almost correct. Only the C#min is not logical.
+Here I made two keygrams about the song 'Apocalypse' and 'Highest In The Room'. These are the only two songs that appear in both our playlists. Because those songs are both very different but they do appear in both our playslists, it might be interesting to work this out. In the timbre and chroma self-similarity matrixes on the other page, it becomes clear that there is a more structered pattern in Highest in The Room than in Apocalypse. I also see this in the keygrams.
+
+In Highest in The Room, there is a clear difference between couplets and refrains and around 150 seconds, it changes to something else. I don't know if the kegram is correct because the song in in D minor and the most common chords are Dm and Am. In the keygram the Dm is very dark but the Am isn't.
+
+In the keygram of Apocalypse, there is a vague pattern that continues trough the whole song. Also, this keygram is much darker than that of the other song. This song is in F major but I don't really see this. I do see that Dm is very dark and this is a common chords in this song. 
+
+In both the keygrams there are things that are expected in the key, but also a lot of onexpected things. But if I compare these two keygrams, they have a lot in common, like the C#min, Dmin and Dmaj. And if I look at the chords of the two songs, there are also a few similarities. Like the Dm, Am, Bb and Gm. 

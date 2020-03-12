@@ -621,7 +621,19 @@ highest_tempo %>%
     theme_classic()
 
 
+apocalypse_tempo <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX')
+
+apocalypse_tempo %>% 
+    tempogram(window_size = 8, hop_size = 1, cyclic = TRUE) %>% 
+    ggplot(aes(x = time, y = bpm, fill = power)) + 
+    geom_raster() + 
+    scale_fill_viridis_c(guide = 'none') +
+    labs(x = 'Time (s)', y = 'Tempo (BPM)', title = 'Higest In The Room', subtitle = 'Tempo') +
+    theme_classic()
 
 ```
 
+*** 
+For the tempograms, I picked again the two songs that appear in both our playlists. Because these two songs are so different, I chose to work these two out. Also, because I can tell a clear story when I use the same songs over again. And maybe I can come to a conclusion why these two particular songs are the only two that are in both of our playlists. 
 
+So, I looked at the timbre and keys of the songs. Now I'm going to look at the tempo in those songs. In tempo, these songs differs the most. You can see in the tempograms, that Highest In The Room by Travis Scott scores really high in tempo. It is almost the whole song about 155 BPM and sometimes it even reaches the 160 BPM. 

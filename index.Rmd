@@ -605,4 +605,23 @@ In Highest in The Room, there is a clear difference between couplets and refrain
 
 In the keygram of Apocalypse, there is a vague pattern that continues trough the whole song. Also, this keygram is much darker than that of the other song. This song is in F major but I don't really see this. I do see that Dm is very dark and this is a common chords in this song. 
 
-In both the keygrams there are things that are expected in the key, but also a lot of onexpected things. But if I compare these two keygrams, they have a lot in common, like the C#min, Dmin and Dmaj. And if I look at the chords of the two songs, there are also a few similarities. Like the Dm, Am, Bb and Gm. 
+In both the keygrams there are things that are expected in the key, but also a lot of onexpected things. But if I compare these two keygrams, they have a lot in common, like the C#min, Dmin and Dmaj. And if I look at the chords of the two songs, there are also a few similarities. Like the Dm, Am, Bb and Gm.
+
+### Tempograms
+
+```{r}
+highest_tempo <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW')
+
+highest_tempo %>% 
+    tempogram(window_size = 8, hop_size = 1, cyclic = TRUE) %>% 
+    ggplot(aes(x = time, y = bpm, fill = power)) + 
+    geom_raster() + 
+    scale_fill_viridis_c(guide = 'none') +
+    labs(x = 'Time (s)', y = 'Tempo (BPM)', title = 'Higest In The Room', subtitle = 'Tempo') +
+    theme_classic()
+
+
+
+```
+
+

@@ -22,137 +22,41 @@ source('spotify.R')
 library(compmus)
 ```
 
-### Apocalypse and Highest in The Room in keygrams
+### Highest In The Room and Apocalypse are most different in tempo. 
 
 ```{r}
-circshift <- function(v, n) {if (n == 0) v else c(tail(v, n), head(v, -n))}
-                                    
-    # C     C#    D     Eb    E     F     F#    G     Ab    A     Bb    B 
-major_chord <- 
-    c(1,    0,    0,    0,    1,    0,    0,    1,    0,    0,    0,    0)
-minor_chord <- 
-    c(1,    0,    0,    1,    0,    0,    0,    1,    0,    0,    0,    0)
-seventh_chord <- 
-    c(1,    0,    0,    0,    1,    0,    0,    1,    0,    0,    1,    0)
+highest_tempo <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW')
 
-major_key <- 
-    c(6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88)
-minor_key <-
-    c(6.33, 2.68, 3.52, 5.38, 2.60, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17)
-
-chord_templates <-
-    tribble(
-        ~name  , ~template,
-        'Gb:7'  , circshift(seventh_chord,  6),
-        'Gb:maj', circshift(major_chord,    6),
-        'Bb:min', circshift(minor_chord,   10),
-        'Db:maj', circshift(major_chord,    1),
-        'F:min' , circshift(minor_chord,    5),
-        'Ab:7'  , circshift(seventh_chord,  8),
-        'Ab:maj', circshift(major_chord,    8),
-        'C:min' , circshift(minor_chord,    0),
-        'Eb:7'  , circshift(seventh_chord,  3),
-        'Eb:maj', circshift(major_chord,    3),
-        'G:min' , circshift(minor_chord,    7),
-        'Bb:7'  , circshift(seventh_chord, 10),
-        'Bb:maj', circshift(major_chord,   10),
-        'D:min' , circshift(minor_chord,    2),
-        'F:7'   , circshift(seventh_chord,  5),
-        'F:maj' , circshift(major_chord,    5),
-        'A:min' , circshift(minor_chord,    9),
-        'C:7'   , circshift(seventh_chord,  0),
-        'C:maj' , circshift(major_chord,    0),
-        'E:min' , circshift(minor_chord,    4),
-        'G:7'   , circshift(seventh_chord,  7),
-        'G:maj' , circshift(major_chord,    7),
-        'B:min' , circshift(minor_chord,   11),
-        'D:7'   , circshift(seventh_chord,  2),
-        'D:maj' , circshift(major_chord,    2),
-        'F#:min', circshift(minor_chord,    6),
-        'A:7'   , circshift(seventh_chord,  9),
-        'A:maj' , circshift(major_chord,    9),
-        'C#:min', circshift(minor_chord,    1),
-        'E:7'   , circshift(seventh_chord,  4),
-        'E:maj' , circshift(major_chord,    4),
-        'G#:min', circshift(minor_chord,    8),
-        'B:7'   , circshift(seventh_chord, 11),
-        'B:maj' , circshift(major_chord,   11),
-        'D#:min', circshift(minor_chord,    3))
-
-key_templates <-
-    tribble(
-        ~name    , ~template,
-        'Gb:maj', circshift(major_key,  6),
-        'Bb:min', circshift(minor_key, 10),
-        'Db:maj', circshift(major_key,  1),
-        'F:min' , circshift(minor_key,  5),
-        'Ab:maj', circshift(major_key,  8),
-        'C:min' , circshift(minor_key,  0),
-        'Eb:maj', circshift(major_key,  3),
-        'G:min' , circshift(minor_key,  7),
-        'Bb:maj', circshift(major_key, 10),
-        'D:min' , circshift(minor_key,  2),
-        'F:maj' , circshift(major_key,  5),
-        'A:min' , circshift(minor_key,  9),
-        'C:maj' , circshift(major_key,  0),
-        'E:min' , circshift(minor_key,  4),
-        'G:maj' , circshift(major_key,  7),
-        'B:min' , circshift(minor_key, 11),
-        'D:maj' , circshift(major_key,  2),
-        'F#:min', circshift(minor_key,  6),
-        'A:maj' , circshift(major_key,  9),
-        'C#:min', circshift(minor_key,  1),
-        'E:maj' , circshift(major_key,  4),
-        'G#:min', circshift(minor_key,  8),
-        'B:maj' , circshift(major_key, 11),
-        'D#:min', circshift(minor_key,  3))
+highest_tempo %>% 
+    tempogram(window_size = 8, hop_size = 1, cyclic = TRUE) %>% 
+    ggplot(aes(x = time, y = bpm, fill = power)) + 
+    geom_raster() + 
+    scale_fill_viridis_c(guide = 'none') +
+    labs(x = 'Time (s)', y = 'Tempo (BPM)', title = 'Higest In The Room', subtitle = 'Tempo') +
+    theme_classic()
 
 
-highest_key <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW') %>% 
-    compmus_align(sections, segments) %>% 
-    select(sections) %>% unnest(sections) %>% 
-    mutate(
-        pitches = 
-            map(segments, 
-                compmus_summarise, pitches, 
-                method = 'mean', norm = 'manhattan'))
+apocalypse_tempo <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX')
 
-highest_key %>% 
-    compmus_match_pitch_template(key_templates, 'euclidean', 'manhattan') %>% 
-    ggplot(
-        aes(x = start + duration / 2, width = duration, y = name, fill = d)) +
-    geom_tile() +
-    scale_fill_viridis_c(option = 'A', guide = 'none') +
-    theme_minimal() +
-    labs(x = 'Time (s)', y = '', title = 'Highest In The Room', subtitle = 'Keygram')
+apocalypse_tempo %>% 
+    tempogram(window_size = 8, hop_size = 1, cyclic = TRUE) %>% 
+    ggplot(aes(x = time, y = bpm, fill = power)) + 
+    geom_raster() + 
+    scale_fill_viridis_c(guide = 'none') +
+    labs(x = 'Time (s)', y = 'Tempo (BPM)', title = 'Apocalypse', subtitle = 'Tempo') +
+    theme_classic()
 
-apocalypse_key <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX') %>% 
-    compmus_align(sections, segments) %>% 
-    select(sections) %>% unnest(sections) %>% 
-    mutate(
-        pitches = 
-            map(segments, 
-                compmus_summarise, pitches, 
-                method = 'mean', norm = 'manhattan'))
-
-apocalypse_key %>% 
-    compmus_match_pitch_template(key_templates, 'euclidean', 'manhattan') %>% 
-    ggplot(
-        aes(x = start + duration / 2, width = duration, y = name, fill = d)) +
-    geom_tile() +
-    scale_fill_viridis_c(option = 'A', guide = 'none') +
-    theme_minimal() +
-    labs(x = 'Time (s)', y = '', title = 'Apocalypse', subtitle = 'Keygram')
 ```
 
 *** 
-Here I made two keygrams about the song 'Apocalypse' and 'Highest In The Room'. These are the only two songs that appear in both our playlists. Because those songs are both very different but they do appear in both our playslists, it might be interesting to work this out. In the timbre and chroma self-similarity matrixes on the other page, it becomes clear that there is a more structered pattern in Highest in The Room than in Apocalypse. I also see this in the keygrams.
+For the tempograms, I picked again the two songs that appear in both our playlists. Because these two songs are so different, I chose to work these two out. Also, because I can tell a clear story when I use the same songs over again. And maybe I can come to a conclusion why these two particular songs are the only two that are in both of our playlists. 
 
-In Highest in The Room, there is a clear difference between couplets and refrains and around 150 seconds, it changes to something else. I don't know if the kegram is correct because the song in in D minor and the most common chords are Dm and Am. In the keygram the Dm is very dark but the Am isn't.
+So, I looked at the timbre and keys of the songs. Now I'm going to look at the tempo in those songs. In tempo, these songs differs the most. You can see in the tempograms, that Highest In The Room by Travis Scott scores really high in tempo. It is almost the whole song about 155 BPM and sometimes it even reaches the 160 BPM. 
 
-In the keygram of Apocalypse, there is a vague pattern that continues trough the whole song. Also, this keygram is much darker than that of the other song. This song is in F major but I don't really see this. I do see that Dm is very dark and this is a common chords in this song. 
+In the tempogram of Apocalypse by Cigarettes After Sex that the this song is really slow. It is about 90 BPM. Sometimes it is almost 100 BPM and sometimes  it is even on the lowest point of the tempogram, 80 BPM. 
 
-In both the keygrams there are things that are expected in the key, but also a lot of onexpected things. But if I compare these two keygrams, they have a lot in common, like the C#min, Dmin and Dmaj. And if I look at the chords of the two songs, there are also a few similarities. Like the Dm, Am, Bb and Gm. 
+So I can conclude here that the two songs differs the most in tempo. It is almost the exact opposite. Still we both really like these songs. Maybe our tastes in genres are not that different, only the levels in the genres. It is a pity that I don't have these wrapped up lists from the other years that we've been together. Because it would be interesting to compare all those lists.
+
 
 ### Pien versus Pim
 
@@ -607,7 +511,7 @@ In the keygram of Apocalypse, there is a vague pattern that continues trough the
 
 In both the keygrams there are things that are expected in the key, but also a lot of onexpected things. But if I compare these two keygrams, they have a lot in common, like the C#min, Dmin and Dmaj. And if I look at the chords of the two songs, there are also a few similarities. Like the Dm, Am, Bb and Gm.
 
-### Tempograms
+### Highest In The Room and Apocalypse are most different in tempo.
 
 ```{r}
 highest_tempo <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW')
@@ -628,7 +532,7 @@ apocalypse_tempo %>%
     ggplot(aes(x = time, y = bpm, fill = power)) + 
     geom_raster() + 
     scale_fill_viridis_c(guide = 'none') +
-    labs(x = 'Time (s)', y = 'Tempo (BPM)', title = 'Higest In The Room', subtitle = 'Tempo') +
+    labs(x = 'Time (s)', y = 'Tempo (BPM)', title = 'Apocalypse', subtitle = 'Tempo') +
     theme_classic()
 
 ```
@@ -637,3 +541,7 @@ apocalypse_tempo %>%
 For the tempograms, I picked again the two songs that appear in both our playlists. Because these two songs are so different, I chose to work these two out. Also, because I can tell a clear story when I use the same songs over again. And maybe I can come to a conclusion why these two particular songs are the only two that are in both of our playlists. 
 
 So, I looked at the timbre and keys of the songs. Now I'm going to look at the tempo in those songs. In tempo, these songs differs the most. You can see in the tempograms, that Highest In The Room by Travis Scott scores really high in tempo. It is almost the whole song about 155 BPM and sometimes it even reaches the 160 BPM. 
+
+In the tempogram of Apocalypse by Cigarettes After Sex that the this song is really slow. It is about 90 BPM. Sometimes it is almost 100 BPM and sometimes  it is even on the lowest point of the tempogram, 80 BPM. 
+
+So I can conclude here that the two songs differs the most in tempo. It is almost the exact opposite. Still we both really like these songs. Maybe our tastes in genres are not that different, only the levels in the genres. It is a pity that I don't have these wrapped up lists from the other years that we've been together. Because it would be interesting to compare all those lists. 

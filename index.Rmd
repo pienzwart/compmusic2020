@@ -16,47 +16,24 @@ output:
 ```{r setup}
 # In order to use these packages, we need to install flexdashboard, plotly, and Cairo.
 library(tidyverse)
+library(tidymodels)
+library(protoclust)
+library(ggdendro)
+library(heatmaply)
 library(plotly)
 library(spotifyr)
 source('spotify.R')
 library(compmus)
 ```
 
-### Highest In The Room and Apocalypse are most different in tempo. 
+### Classification
 
-```{r}
-highest_tempo <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW')
+I tried to make classification visualizations. But I got an error every time. My R doesn't recognize the 'add_audio_analysis'. 
+The error I get: Error in purrr::map(track_uri, get_tidy_audio_analysis, ...) : object 'track_uri' not found
 
-highest_tempo %>% 
-    tempogram(window_size = 8, hop_size = 1, cyclic = TRUE) %>% 
-    ggplot(aes(x = time, y = bpm, fill = power)) + 
-    geom_raster() + 
-    scale_fill_viridis_c(guide = 'none') +
-    labs(x = 'Time (s)', y = 'Tempo (BPM)', title = 'Higest In The Room', subtitle = 'Tempo') +
-    theme_classic()
+And when I try without 'add_audio_analysis', I get the error: Error: `.x` must be a vector, not a function. 
 
-
-apocalypse_tempo <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX')
-
-apocalypse_tempo %>% 
-    tempogram(window_size = 8, hop_size = 1, cyclic = TRUE) %>% 
-    ggplot(aes(x = time, y = bpm, fill = power)) + 
-    geom_raster() + 
-    scale_fill_viridis_c(guide = 'none') +
-    labs(x = 'Time (s)', y = 'Tempo (BPM)', title = 'Apocalypse', subtitle = 'Tempo') +
-    theme_classic()
-
-```
-
-*** 
-For the tempograms, I picked again the two songs that appear in both our playlists. Because these two songs are so different, I chose to work these two out. Also, because I can tell a clear story when I use the same songs over again. And maybe I can come to a conclusion why these two particular songs are the only two that are in both of our playlists. 
-
-So, I looked at the timbre and keys of the songs. Now I'm going to look at the tempo in those songs. In tempo, these songs differs the most. You can see in the tempograms, that Highest In The Room by Travis Scott scores really high in tempo. It is almost the whole song about 155 BPM and sometimes it even reaches the 160 BPM. 
-
-In the tempogram of Apocalypse by Cigarettes After Sex that the this song is really slow. It is about 90 BPM. Sometimes it is almost 100 BPM and sometimes  it is even on the lowest point of the tempogram, 80 BPM. 
-
-So I can conclude here that the two songs differs the most in tempo. It is almost the exact opposite. Still we both really like these songs. Maybe our tastes in genres are not that different, only the levels in the genres. It is a pity that I don't have these wrapped up lists from the other years that we've been together. Because it would be interesting to compare all those lists.
-
+I really don't know how to fix this. I have installed all the packages that are needed and I updated everything... I hope that maybe one of the peer reviewers have a solution for this or knows what I'm doing wrong. 
 
 ### Pien versus Pim
 
@@ -544,4 +521,8 @@ So, I looked at the timbre and keys of the songs. Now I'm going to look at the t
 
 In the tempogram of Apocalypse by Cigarettes After Sex that the this song is really slow. It is about 90 BPM. Sometimes it is almost 100 BPM and sometimes  it is even on the lowest point of the tempogram, 80 BPM. 
 
-So I can conclude here that the two songs differs the most in tempo. It is almost the exact opposite. Still we both really like these songs. Maybe our tastes in genres are not that different, only the levels in the genres. It is a pity that I don't have these wrapped up lists from the other years that we've been together. Because it would be interesting to compare all those lists. 
+So I can conclude here that the two songs differs the most in tempo. It is almost the exact opposite. Still we both really like these songs. Maybe our tastes in genres are not that different, only the levels in the genres. It is a pity that I don't have these wrapped up lists from the other years that we've been together. Because it would be interesting to compare all those lists.
+
+
+### Classification
+

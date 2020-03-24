@@ -26,19 +26,16 @@ source('spotify.R')
 library(compmus)
 ```
 
-### Classification
-
-I tried to make classification visualizations. But I got an error every time. My R doesn't recognize the 'add_audio_analysis'. 
-The error I get: Error in purrr::map(track_uri, get_tidy_audio_analysis, ...) : object 'track_uri' not found
-
-And when I try without 'add_audio_analysis', I get the error: Error: `.x` must be a vector, not a function. 
-
-I really don't know how to fix this. I have installed all the packages that are needed and I updated everything... I hope that maybe one of the peer reviewers have a solution for this or knows what I'm doing wrong. 
 
 ### Pien versus Pim
 
-For my corpus, I would like to compare my Spotify Wrapped playlist of 2019 to the one of my boyfriend, Pim. Our taste in music is very different and those lists are representing this difference. I think it’s interesting to compare these two playlists. I’m more into soft pop music, singer-/songwriters, also a little classical music, film music, etc. And Pim is more into Drum & Bass, Rap, Hiphop, etc. But we appreciate each others taste of music increasingly since we've been together. For a research question I would think of how different our music tastes really are. At first glance, they are very different. But maybe there are some underlying similarities. And what those differenses and similarities mean.
+For my corpus, I would like to compare my Spotify Wrapped playlist of 2019 to the one of my boyfriend, Pim. Our taste in music is very different and those lists are representing this difference. 
 
+I think it’s interesting to compare these two playlists. I’m more into soft pop music, singer-/songwriters, also a little classical music, film music, etc. And Pim is more into Drum & Bass, Rap, Hiphop, etc. But we appreciate each others taste of music increasingly since we've been together. For a research question I would think of how different our music tastes really are. At first glance, they are very different. But maybe there are some underlying similarities. And what those differenses and similarities mean.
+
+The meaning of music is also different. Pim doesn't like to really listen to en think about lyrics of songs. He just want to feel it physically, especially the beat, and dance or focus. I really love to feel music emotionally and think about lyrics. For me is music a way to express feelings. 
+
+I'm going to look at the similarities and differences in our playlists. First I will compare the whole playlists. By doing that, I will get a clear overview of my corpus. After that, I am going to take a deeper look by comparing specific songs of our playlists. I will be doing this for chroma and timbre, key and tempo.
 
 
 
@@ -113,7 +110,7 @@ ggplotly(loudness)
 ```
 
 ***
-In the figure we see that Pim is more specific and I am more diverse and stable. This makes more sense. My standard deviation of loudness is large because I listen to more different types of music. A reason for this could be that I have to listen a lot of music for my study, musicology. And this is especially classical music. 
+In the figure we see that Pim is more specific and I am more diverse and stable. This makes more sense. My standard deviation of loudness is large because I listen to more different types of music. A reason for this could be that I have to listen a lot of music for my study, musicology. And this is especially classical music. Therefore, I will look, from now on, more at the part where there are more similarities and leave the bottom left side of my playlist as kind of outliers. I will do this because otherwise the differences become really big and not very useful. 
 
 ### Our similarities!
 
@@ -219,11 +216,11 @@ compmus_long_distance(
 ***
 There are only two songs that appear in both our playlists. Those songs are Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott. These songs are very very different. That's why I have put them together in a chromagram. 
 
-### The Timbre and Chroma in Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott.
+### The Timbre and Chroma in Bad Guy and Hunnybee.
 
 ```{r}
 
-apocalypse_timbre <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX') %>% 
+badguy_timbre <- get_tidy_audio_analysis('2Fxmhks0bxGSBdJ92vM42m') %>% 
     compmus_align(sections, segments) %>% 
     select(sections) %>% unnest(sections) %>% 
     mutate(
@@ -239,7 +236,7 @@ apocalypse_timbre <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX') %>%
 
 
 
-apocalypse_timbre %>% 
+badguy_timbre %>% 
     compmus_self_similarity(timbre, 'cosine') %>% 
     ggplot(
         aes(
@@ -252,11 +249,11 @@ apocalypse_timbre %>%
     coord_fixed() +
     scale_fill_viridis_c(option = 'A', guide = 'none') +
     theme_classic() +
-    labs(x = '', y = '', title = 'Apocalypse', subtitle = 'Timbre')
+    labs(x = '', y = '', title = 'Bad Guy', subtitle = 'Timbre')
 
 
 
-highest_timbre <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW') %>% 
+hunnybee_timbre <- get_tidy_audio_analysis('3DPFmwFtV5ElQaTniLOdgk') %>% 
     compmus_align(sections, segments) %>% 
     select(sections) %>% unnest(sections) %>% 
     mutate(
@@ -272,7 +269,7 @@ highest_timbre <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW') %>%
 
 
 
-highest_timbre %>% 
+hunnybee_timbre %>% 
     compmus_self_similarity(timbre, 'cosine') %>% 
     ggplot(
         aes(
@@ -285,10 +282,10 @@ highest_timbre %>%
     coord_fixed() +
     scale_fill_viridis_c(option = 'A', guide = 'none') +
     theme_classic() +
-    labs(x = '', y = '', title = 'Highest In The Room', subtitle = 'Timbre')
+    labs(x = '', y = '', title = 'Hunnybee', subtitle = 'Timbre')
 
 
-apocalypse_chroma <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX') %>% 
+badguy_chroma <- get_tidy_audio_analysis('2Fxmhks0bxGSBdJ92vM42m') %>% 
     compmus_align(sections, segments) %>% 
     select(sections) %>% unnest(sections) %>% 
     mutate(
@@ -304,7 +301,7 @@ apocalypse_chroma <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX') %>%
 
 
 
-apocalypse_chroma %>% 
+badguy_chroma %>% 
     compmus_self_similarity(chroma, 'manhattan') %>% 
     ggplot(
         aes(
@@ -317,10 +314,10 @@ apocalypse_chroma %>%
     coord_fixed() +
     scale_fill_viridis_c(option = 'A', guide = 'none') +
     theme_classic() +
-    labs(x = '', y = '', title = 'Apocalypse', subtitle = 'Chroma')
+    labs(x = '', y = '', title = 'Bad Guy', subtitle = 'Chroma')
 
 
-highest_chroma <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW') %>% 
+hunnybee_chroma <- get_tidy_audio_analysis('3DPFmwFtV5ElQaTniLOdgk') %>% 
     compmus_align(sections, segments) %>% 
     select(sections) %>% unnest(sections) %>% 
     mutate(
@@ -336,7 +333,7 @@ highest_chroma <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW') %>%
 
 
 
-highest_chroma %>% 
+hunnybee_chroma %>% 
     compmus_self_similarity(chroma, 'manhattan') %>% 
     ggplot(
         aes(
@@ -349,14 +346,18 @@ highest_chroma %>%
     coord_fixed() +
     scale_fill_viridis_c(option = 'A', guide = 'none') +
     theme_classic() +
-    labs(x = '', y = '', title = 'Highest In The Room', subtitle = 'Chroma')
+    labs(x = '', y = '', title = 'Hunnybee', subtitle = 'Chroma')
 ```
 
-*** 
-There are only two songs that appear in both our playlists: Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott. These songs are very different in genre. Apocalypse is slow pop and Highest In The Room is hiphop. So it could be interesting to look at the differences in the self-similarity matrixes. In Apocalypse, there is structure in the pattern but also some differences. In the vocal part, there are some little changes and variations but the instrumental part is more like a river, it continues. I think that you can see that in both the visualizations timbre and chroma between 100 and 200. There is a part of the pattern that continous but also a part that changes. In the visualization of Highest In The Room, there is a clear checkerborard pattern in the beginning but after two-thirds of the song, there is a big change. It becomes instrumental till the end of the song. You can see this in the timbre visualization between 100 and 150. The checkerboard pattern dissapears.  
+For the timbre and chroma I compare the two most danceable songs in our playlists. In my playlist is 'Bury a Friend' by Billie Eilish the most danceable song. In the playlist of Pim, 'Hunnybee' by Unkown Mortal Orchestra is the most danceable song. I chose these two songs because I think it would be interesting to look if these songs have similarities.
 
+The grams of Bad Guy shows us that there is a structure in the song. And that changes at almost the end of the song. The structure stops. But according to the grams, the beat is considered to be almost the same as before (the purple blocks). Around 150, it turns into a little lighter purple but it's almost the same. 
 
-### Apocalypse and Highest in The Room in keygrams
+In the grams of Hunnybee, there is not really a clear structure. There is a beat that continues trough the whole song. That is why the blocks are almost the same color, except the black one. The differences are in the lyrics of the couplets and refrains. Just after 200, something happens. Here is a guitarsolo and after that, there is again the refrain. 
+
+So these songs don't have a lot similarities. They both have a deviation in their structure. But their structures are really different. What they do have in common is that in both songs, there is a beat that continues almost the whole songs. So I think that's why they both score high on danceability. 
+
+### Lions Don't Cry and Aguella in keygrams
 
 ```{r}
 circshift <- function(v, n) {if (n == 0) v else c(tail(v, n), head(v, -n))}
@@ -442,7 +443,7 @@ key_templates <-
         'D#:min', circshift(minor_key,  3))
 
 
-highest_key <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW') %>% 
+lions_key <- get_tidy_audio_analysis('70GmGE3PnqsvZmyHme6sjI') %>% 
     compmus_align(sections, segments) %>% 
     select(sections) %>% unnest(sections) %>% 
     mutate(
@@ -451,16 +452,16 @@ highest_key <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW') %>%
                 compmus_summarise, pitches, 
                 method = 'mean', norm = 'manhattan'))
 
-highest_key %>% 
+lions_key %>% 
     compmus_match_pitch_template(key_templates, 'euclidean', 'manhattan') %>% 
     ggplot(
         aes(x = start + duration / 2, width = duration, y = name, fill = d)) +
     geom_tile() +
     scale_fill_viridis_c(option = 'A', guide = 'none') +
     theme_minimal() +
-    labs(x = 'Time (s)', y = '', title = 'Highest In The Room', subtitle = 'Keygram')
+    labs(x = 'Time (s)', y = '', title = 'Lions Dont Cry', subtitle = 'Keygram')
 
-apocalypse_key <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX') %>% 
+aguella_key <- get_tidy_audio_analysis('2odYqDHPb6zyBoZjozWOaA') %>% 
     compmus_align(sections, segments) %>% 
     select(sections) %>% unnest(sections) %>% 
     mutate(
@@ -469,26 +470,26 @@ apocalypse_key <- get_tidy_audio_analysis('0yc6Gst2xkRu0eMLeRMGCX') %>%
                 compmus_summarise, pitches, 
                 method = 'mean', norm = 'manhattan'))
 
-apocalypse_key %>% 
+aguella_key %>% 
     compmus_match_pitch_template(key_templates, 'euclidean', 'manhattan') %>% 
     ggplot(
         aes(x = start + duration / 2, width = duration, y = name, fill = d)) +
     geom_tile() +
     scale_fill_viridis_c(option = 'A', guide = 'none') +
     theme_minimal() +
-    labs(x = 'Time (s)', y = '', title = 'Apocalypse', subtitle = 'Keygram')
+    labs(x = 'Time (s)', y = '', title = 'Aguella - Original Mix', subtitle = 'Keygram')
 ```
 
 *** 
-Here I made two keygrams about the song 'Apocalypse' and 'Highest In The Room'. These are the only two songs that appear in both our playlists. Because those songs are both very different but they do appear in both our playslists, it might be interesting to work this out. In the timbre and chroma self-similarity matrixes on the other page, it becomes clear that there is a more structered pattern in Highest in The Room than in Apocalypse. I also see this in the keygrams.
+Here I made two keygrams of the songs in our playlists with the most energy. In my playlist the most energetic song is Lions Don't Cry by Tim Akkerman and has an energy of 0.93. In Pim's playlist the song with the most energy is Aguella - Original Mix by Sllash & Doppe and has a energy of 0.98. The keygrams are looking very different. Let's take a look.
 
-In Highest in The Room, there is a clear difference between couplets and refrains and around 150 seconds, it changes to something else. I don't know if the kegram is correct because the song in in D minor and the most common chords are Dm and Am. In the keygram the Dm is very dark but the Am isn't.
+The keygram of Lions Don't Cry is very clear. It says that almost the whole song Db major and G major are present. Also E minor occurs a lot. There are also a few other keys that are very dark in the gram. I can compare these with the information that Chordify gives about this song. According to Chordify this song is in E minor. Here is the G major right because that is the III. The Db major is a little bit strange. Because in E minor it can be a C#, that is the sixth increased (verhoogde zesde trap). But in Chordify there is a C major and D major, not something in between. But in the E minor key, it is possible. Also in the keygram, the D# minor is really dark. This is the vii. It is not present as chord in the song but for the key it is really logical. One thing that is really noticable is the B. According to Chordify B major and B minor are both present in this song. The B minor more often than the majeur chord. The B major would be logical because that is the fifth/V and this chord should be major. So why the B minor is more common, is a little but strange. Also both the B major and B minor are not really visible in the keygram. So beside the B minor/majeur thing, the key of the song (E minor) is very clear in both the keygram and Chordify. 
 
-In the keygram of Apocalypse, there is a vague pattern that continues trough the whole song. Also, this keygram is much darker than that of the other song. This song is in F major but I don't really see this. I do see that Dm is very dark and this is a common chords in this song. 
+The keygram of Aguella is not so clear. I think that this is a hard song to analyze because it is electronic music. In the keygram the B minor and major, F# minor and Ab major are really dark. According to Chordify, this song is in G# minor. The Ab major can be a confusion with G# because that is the same tone. And in chordify there is sometimes a G# major present. The G# minor is in the keygram quite light and that is really strange because the G# minor chords appears a lot in the song. Also according to Chordify, the chord D# minor appears a lot. But in the key G# minor, D# would be the fifth/V and that should be a major chord. But the key of this song (G# minor) is clear. 
 
-In both the keygrams there are things that are expected in the key, but also a lot of onexpected things. But if I compare these two keygrams, they have a lot in common, like the C#min, Dmin and Dmaj. And if I look at the chords of the two songs, there are also a few similarities. Like the Dm, Am, Bb and Gm.
+But of course these are keygram and both of them are showing the keys clearly. They don't really show the chords in the songs. The songs don't have a lot in common, only that they are both energetic. I think that the keygram of Lions don't cry is more clear because that song is made with recognizable instruments and Aguella is really electronic and maybe harder to recognize.
 
-### Highest In The Room and Apocalypse are most different in tempo.
+### Highest In The Room and Apocalypse are really different in tempo.
 
 ```{r}
 highest_tempo <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW')
@@ -515,14 +516,37 @@ apocalypse_tempo %>%
 ```
 
 *** 
-For the tempograms, I picked again the two songs that appear in both our playlists. Because these two songs are so different, I chose to work these two out. Also, because I can tell a clear story when I use the same songs over again. And maybe I can come to a conclusion why these two particular songs are the only two that are in both of our playlists. 
+For the tempograms, I picked the only two songs that appear in both our playlists. Because these two songs seems to be very different, I chose to work these two out in tempograms. And maybe I can come to a conclusion why these two particular songs are the only two that are in both of our playlists. 
 
-So, I looked at the timbre and keys of the songs. Now I'm going to look at the tempo in those songs. In tempo, these songs differs the most. You can see in the tempograms, that Highest In The Room by Travis Scott scores really high in tempo. It is almost the whole song about 155 BPM and sometimes it even reaches the 160 BPM. 
+You can see in the tempograms, that Highest In The Room by Travis Scott scores really high in tempo. It is almost the whole song about 155 BPM and sometimes it even reaches the 160 BPM. 
 
 In the tempogram of Apocalypse by Cigarettes After Sex that the this song is really slow. It is about 90 BPM. Sometimes it is almost 100 BPM and sometimes  it is even on the lowest point of the tempogram, 80 BPM. 
 
-So I can conclude here that the two songs differs the most in tempo. It is almost the exact opposite. Still we both really like these songs. Maybe our tastes in genres are not that different, only the levels in the genres. It is a pity that I don't have these wrapped up lists from the other years that we've been together. Because it would be interesting to compare all those lists.
+So I can conclude here that the two songs differs a lot in tempo. It is almost the exact opposite. Still we both really like these songs. Maybe our tastes in genres are not that different, only the levels in the genres. 
 
 
 ### Classification
+
+I tried to make classification visualizations. But I got an error every time. My R doesn't recognize the 'add_audio_analysis'. 
+The error I get: Error in purrr::map(track_uri, get_tidy_audio_analysis, ...) : object 'track_uri' not found
+
+And when I try without 'add_audio_analysis', I get the error: Error: `.x` must be a vector, not a function. 
+
+I really don't know how to fix this. I have installed all the packages that are needed and I updated everything... I hope that maybe one of the peer reviewers have a solution for this or knows what I'm doing wrong. 
+
+
+
+### Conclusion
+
+For now, I can conclude that my boyfriend and I really have different tastes in music genres. But sometimes there are a few similarities. I think that it would be really interesting to look in a few years, what the differences are then. It is a pity that I don't have these wrapped up lists from the other years that we've been together. Because it would be interesting to compare all those lists. 
+
+I think that I listen to a lot more different genres than Pim does. I've focused in this portfolio on the most danceable and energetic songs, and the two songs that appear in both our playlists. I haven't focused on the slowest songs because those diffences are really big. 
+
+In the results, we've seen that Pim's playlist is more danceable and mine is more acoustic. I've also discussed our similarities and we both listen to major and minor but not really cheerful music. The mean in key of my playlist is E/F. And de mean in key in the playlist of Pim is F/F#. If we compare this to the keygrams I made, it is right. The keygram of Lions Don't Cry from my playlist is in E minor. And the keygram of Aguella from Pim's playlist is in G# minor. My most energetic song is a little bit closer to my mean than Pim's most energetic song.
+
+If we look at the tempograms and compare these with the means of tempo, we see also something interesting. The mean of tempo in my playlist is 113. In Pim's playlist the mean of tempo is 129. The two songs that I put in a tempogram, are really different. Their tempi is also really apart. The song Highest In The Room is for both our playlist really fast (155 - 160 BPM). The other song, Apocalypse, is really slow compared to our means (80 - 100 BPM). 
+
+What would be interesting is to look at the results from this year and the results of upcoming year. If I keep doing this in the upcoming years, I can compare all the results and see if there is a specific movement. Are we growing to each other? Or do we keep our own taste in music? Or maybe our musictastes will melt together. I think it would be interesting to keep looking at this.  
+
+
 

@@ -35,7 +35,7 @@ I think it’s interesting to compare these two playlists. I’m more into soft 
 
 The meaning of music is also different. Pim doesn't like to really listen to en think about lyrics of songs. He just want to feel it physically, especially the beat, and dance or focus. I really love to feel music emotionally and think about lyrics. For me is music a way to express feelings. 
 
-I'm going to look at the similarities and differences in our playlists. First I will compare the whole playlists. By doing that, I will get a clear overview of my corpus. After that, I am going to take a deeper look by comparing specific songs of our playlists. I will be doing this for chroma and timbre, key and tempo.
+I'm going to look at the similarities and differences in our playlists. First I will compare the whole playlists. By doing that, I will get a clear overview of my corpus. After that, I am going to take a deeper look by comparing specific songs of our playlists. I will be doing this for chroma and timbre, key, tempo and classification.
 
 
 
@@ -96,10 +96,10 @@ ggplotly(dancing)
 
 
 ***
-I have some first findings, measured by Spotify, that are interesting: 
-The music that Pim listens to is more danceable (M = 0.72, SD = 0.13) than the music I listen to (M = 0.48, SD = 0.19). Also there is a difference in energy. Pim’s playlist is way more energetic (M = 0.68, SD = 0.18) than mine (M = 0.34, SD = 0.25). If we look at the loudness category, Pim’s playlist is louder (M = -6.72, SD = 2.41) than mine (M = -14.1, SD = 8.79). In the figure below, we can see the differences that I discussed above. In Pim's figure, almost all of the points/dots are on the top right. This means, that the the energy and danceability is very high. The loudness is indicated with the size of the points/dots. In my figure, the points/dots are more spread out. But almost all the points/dots are very small. So in the size (loudness), Pim is more diverse. And my figure is more stable. Which is a little strange because my standard deviation is a lot bigger than Pim's. To make this more clear, I made a figure of the loudness. 
+I have some interesting first findings, measured by Spotify.   
+The music that Pim listens to is more danceable (M = 0.72, SD = 0.13) than the music I listen to (M = 0.48, SD = 0.19). Also there is a difference in energy. Pim’s playlist is way more energetic (M = 0.68, SD = 0.18) than mine (M = 0.34, SD = 0.25). If we look at the loudness category, Pim’s playlist is louder (M = -6.72, SD = 2.41) than mine (M = -14.1, SD = 8.79). In the figure below, we can see the differences that I discussed above. In Pim's figure, almost all of the points/dots are on the top right. This means, that the the energy and danceability is very high. The loudness is indicated with the size of the points/dots. In my figure, the points/dots are more spread out. But almost all the points/dots are very small. So in the size (loudness), Pim is more diverse. And my figure is more stable. Which I think is a little strange because my standard deviation is a lot bigger than Pim's. To make this more clear, I made a figure of the loudness in the next tab. 
 
-### To understand the difference in Loudness, I made a nice figure.
+### Pim is louder but I am varied
 
 ```{r fig.width=5, fig.height=8}
 loudness <- spotify_wrapped_2019 %>%
@@ -110,12 +110,12 @@ ggplotly(loudness)
 ```
 
 ***
-In the figure we see that Pim is more specific and I am more diverse and stable. This makes more sense. My standard deviation of loudness is large because I listen to more different types of music. A reason for this could be that I have to listen a lot of music for my study, musicology. And this is especially classical music. Therefore, I will look, from now on, more at the part where there are more similarities and leave the bottom left side of my playlist as kind of outliers. I will do this because otherwise the differences become really big and not very useful. 
+In the figure we see that Pim is more specific and I am more diverse and stable. This makes more sense than the other figure. My standard deviation of loudness is large because I listen to more different types of music. A reason for this could be that I have to listen a lot of music for my study, musicology. And this is especially classical music. Therefore, I will look, from now on, more at the part where there are more similarities and leave the bottom left side of my playlist as kind of outliers. I will do this because otherwise the differences become really big and not very useful. 
 
-### Our similarities!
+### We do have similarities!
 
 
-This table shows us a summery of all the Spotify features. In the previous tab I discussed the difference in Danceability, Energy and Loudness. If we look at the Acousticness, there is also a quit large difference. 
+This table shows us a summery of all the Spotify features. In the previous tabs I discussed the difference in Danceability, Energy and Loudness. If we look at the Acousticness, there is also a quit large difference. 
 
 But there are also similarities like the Keys of our playlists. If we look at the results of Pim in this category, it would mean in the pitch class: F/F#. My results for Key would mean in pitch class: E/F. 
 
@@ -183,7 +183,7 @@ Valence        | Mean |  SD  |
 
 
 
-### Apocalypse and Highest In The Room in a chromagram
+### There are only two songs that appear in both of our playlists.
 
 ```{r}
 apocalypse <- 
@@ -195,28 +195,40 @@ highest <-
     select(segments) %>% unnest(segments) %>% 
     select(start, duration, pitches)
 
-compmus_long_distance(
-    apocalypse %>% mutate(pitches = map(pitches, compmus_normalise, 'chebyshev')),
-    highest %>% mutate(pitches = map(pitches, compmus_normalise, 'chebyshev')),
-    feature = pitches,
-    method = 'euclidean') %>% 
+
+apocalypse %>% 
+    mutate(pitches = map(pitches, compmus_normalise, 'euclidean')) %>% 
+    compmus_gather_chroma %>% 
     ggplot(
         aes(
-            x = xstart + xduration / 2, 
-            width = xduration,
-            y = ystart + yduration / 2,
-            height = yduration,
-            fill = d)) + 
+            x = start + duration / 2, 
+            width = duration, 
+            y = pitch_class, 
+            fill = value)) + 
     geom_tile() +
-    scale_fill_continuous(type = 'viridis', guide = 'none') +
-    labs(x = 'Apocalypse', y = 'The Highest In The Room') +
+    labs(x = 'Time (s)', y = NULL, fill = 'Magnitude', title = 'Apocalypse') +
+    theme_minimal()
+
+
+highest %>% 
+    mutate(pitches = map(pitches, compmus_normalise, 'euclidean')) %>% 
+    compmus_gather_chroma %>% 
+    ggplot(
+        aes(
+            x = start + duration / 2, 
+            width = duration, 
+            y = pitch_class, 
+            fill = value)) + 
+    geom_tile() +
+    labs(x = 'Time (s)', y = NULL, fill = 'Magnitude', title = 'Highest In The Room') +
     theme_minimal()
 ```
 
 ***
-There are only two songs that appear in both our playlists. Those songs are Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott. These songs are very very different. That's why I have put them together in a chromagram. 
+There are only two songs that appear in both our playlists. Those songs are Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott. These songs are very very different so I put them both in a chromagram. In the chromagram of Apocalypse, there are a lot of little blue pieces. Mostly at A, F, D and C through the whole song. In the mittle of the song, there is a blue part at G. 
+In the chromagram of Highest In The Room, there are blue sections. First a section with E and F, then a sections between C and D. These sections alternate. At almost the end of the song, it turns to something different. Here is more blue at A#/Bb, G and D. 
 
-### The Timbre and Chroma in Bad Guy and Hunnybee.
+### How are the structures of our most danceable songs?
 
 ```{r}
 
@@ -355,9 +367,9 @@ The grams of Bad Guy shows us that there is a structure in the song. And that ch
 
 In the grams of Hunnybee, there is not really a clear structure. There is a beat that continues trough the whole song. That is why the blocks are almost the same color, except the black one. The differences are in the lyrics of the couplets and refrains. Just after 200, something happens. Here is a guitarsolo and after that, there is again the refrain. 
 
-So these songs don't have a lot similarities. They both have a deviation in their structure. But their structures are really different. What they do have in common is that in both songs, there is a beat that continues almost the whole songs. So I think that's why they both score high on danceability. 
+So these songs don't have a lot similarities. They both have a deviation in their structur, but their structures are really different. What they do have in common is that in both songs, there is a beat that continues almost the whole songs. So I think that's why they both score high on danceability. 
 
-### Lions Don't Cry and Aguella in keygrams
+### The keys of our energetic songs
 
 ```{r}
 circshift <- function(v, n) {if (n == 0) v else c(tail(v, n), head(v, -n))}
@@ -489,7 +501,7 @@ The keygram of Aguella is not so clear. I think that this is a hard song to anal
 
 But of course these are keygram and both of them are showing the keys clearly. They don't really show the chords in the songs. The songs don't have a lot in common, only that they are both energetic. I think that the keygram of Lions don't cry is more clear because that song is made with recognizable instruments and Aguella is really electronic and maybe harder to recognize.
 
-### Highest In The Room and Apocalypse are really different in tempo.
+### Highest In The Room and Apocalypse are really different in tempo
 
 ```{r}
 highest_tempo <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW')
@@ -525,7 +537,7 @@ In the tempogram of Apocalypse by Cigarettes After Sex that the this song is rea
 So I can conclude here that the two songs differs a lot in tempo. It is almost the exact opposite. Still we both really like these songs. Maybe our tastes in genres are not that different, only the levels in the genres. 
 
 
-### Classification
+### My songs are more spread out
 
 
 ```{r}
@@ -592,23 +604,13 @@ predict_knn <- function(split)
     predict(assessment(split), type = 'class') %>%
     bind_cols(assessment(split))
 
-spotify_2019_cv %>% 
-    mutate(pred = map(splits, predict_knn)) %>% unnest(pred) %>% 
-    conf_mat(truth = playlist, estimate = .pred_class)
 
-spotify_2019_cv %>% 
-    mutate(pred = map(splits, predict_knn)) %>% unnest(pred) %>% 
-    conf_mat(truth = playlist, estimate = .pred_class) %>% 
-    autoplot(type = 'mosaic')
 
 spotify_2019_cv %>% 
     mutate(pred = map(splits, predict_knn)) %>% unnest(pred) %>% 
     conf_mat(truth = playlist, estimate = .pred_class) %>% 
     autoplot(type = 'heatmap')
 
-spotify_2019_cv %>% 
-    mutate(pred = map(splits, predict_knn)) %>% unnest(pred) %>% 
-    metric_set(accuracy, kap, j_index)(truth = playlist, estimate = .pred_class)
 
 spotify_2019_logistic <- 
     logistic_reg(mode = 'classification') %>% 
@@ -626,14 +628,8 @@ predict_multinom <- function(split)
     predict(assessment(split), type = 'class') %>%
     bind_cols(assessment(split))
 
-spotify_2019_cv %>% 
-    mutate(pred = map(splits, predict_multinom)) %>% unnest(pred) %>% 
-    metric_set(accuracy, kap, j_index)(truth = playlist, estimate = .pred_class)
 
-spotify_2019_class %>%
-    fit(spotify_2019_multinom, playlist ~ ., data = .) %>%
-    pluck('fit') %>%
-    coef(s = 0)
+
 
 spotify_2019_tree <- 
     decision_tree(mode = 'classification') %>%
@@ -643,50 +639,6 @@ predict_tree <- function(split)
     predict(assessment(split), type = 'class') %>%
     bind_cols(assessment(split))
 
-
-spotify_2019_cv %>% 
-    mutate(pred = map(splits, predict_tree)) %>% unnest(pred) %>% 
-    metric_set(accuracy, kap, j_index)(truth = playlist, estimate = .pred_class)
-
-spotify_2019_class %>% 
-    fit(spotify_2019_tree, playlist ~ ., data = .) %>% 
-    pluck('fit') %>%
-    summary
-
-
-spotify_2019_forest <- 
-    rand_forest(mode = 'classification') %>% 
-    set_engine('randomForest')
-predict_forest <- function(split)
-    fit(spotify_2019_forest, playlist ~ ., data = analysis(split)) %>% 
-    predict(assessment(split), type = 'class') %>%
-    bind_cols(assessment(split))
-
-spotify_2019_cv %>% 
-    mutate(pred = map(splits, predict_forest)) %>% 
-    unnest(pred) %>% 
-    metric_set(accuracy, kap, j_index)(truth = playlist, estimate = .pred_class)
-
-spotify_2019_class %>% 
-    fit(spotify_2019_forest, playlist ~ ., data = .) %>% 
-    pluck('fit') %>% 
-    randomForest::varImpPlot()
-
-predict_knn_reduced <- function(split)
-    fit(
-        spotify_2019_knn, 
-        playlist ~ c01 + liveness + acousticness + c02 + energy, 
-        data = analysis(split)) %>% 
-    predict(assessment(split), type = 'class') %>%
-    bind_cols(assessment(split))
-spotify_2019_cv %>% 
-    mutate(pred = map(splits, predict_knn_reduced)) %>% unnest(pred) %>% 
-    metric_set(accuracy, kap, j_index)(truth = playlist, estimate = .pred_class)
-
-spotify_2019_cv %>% 
-    mutate(pred = map(splits, predict_knn_reduced)) %>% unnest(pred) %>% 
-    conf_mat(truth = playlist, estimate = .pred_class) %>% 
-    autoplot(type = 'mosaic')
 
 spotify_2019 %>%
     ggplot(aes(x = c01, y = c02, colour = playlist, size = liveness)) +
@@ -702,14 +654,16 @@ spotify_2019 %>%
 
 ```
 
+***
+I made a confusion matrix of our playlists. You can see that the differences are pretty clear and that the predictions are about 75% correct. But you also can see here, that Pim is clearer than I am. It varies only two (or one) songs but the prediction that a song belongs in Pim's playlist when it really belongs to mine, occur more than the prediction that a song belongs in my playlist when in fact it belongs in Pim's. So I would conclude out this figure that I' more flexible than Pim is.
 
-I made a confusion matrix of my our playlists. You can see that the differences are pretty clear and that the predictions are about 75% correct. Butyou also can see here, that Pim is clearer than I am. It varies only two (or one) songs but the prediction that a song belongs in Pim's playlist when it really belongs to mine, occur more than the prediction that a song belongs in my playlist when in fact it belongs in Pim's. So I would conclude out this figure that I' more flexible than Pim is. 
+You can also see this in the plot. The songs that belongs in my playlist, are more spread out over the whole plot. The songs of Pim's playlist, are very close to each other. Also there is more variation in liveness in my playlist. 
 
-You can also see this in the Timbre Components plot. The songs that belongs in my playlist, are more spread out over the whole plot. The songs of Pim's playlist, are very close to each other. Also there is more variation in liveness in my playlist. 
+Note: my confusion matrix changes everytime I run the code. So maybe my information differs from the matrix... But the plot is there to be a stable factor.
 
 
 
-### Conclusion
+### My conclusion
 
 For now, I can conclude that my boyfriend and I really have different tastes in music genres. But sometimes there are a few similarities. I think that it would be really interesting to look in a few years, what the differences are then. It is a pity that I don't have these wrapped up lists from the other years that we've been together. Because it would be interesting to compare all those lists. 
 
@@ -718,6 +672,8 @@ I think that I listen to a lot more different genres than Pim does. I've focused
 In the results, we've seen that Pim's playlist is more danceable and mine is more acoustic. I've also discussed our similarities and we both listen to major and minor but not really cheerful music. The mean in key of my playlist is E/F. And de mean in key in the playlist of Pim is F/F#. If we compare this to the keygrams I made, it is right. The keygram of Lions Don't Cry from my playlist is in E minor. And the keygram of Aguella from Pim's playlist is in G# minor. My most energetic song is a little bit closer to my mean than Pim's most energetic song.
 
 If we look at the tempograms and compare these with the means of tempo, we see also something interesting. The mean of tempo in my playlist is 113. In Pim's playlist the mean of tempo is 129. The two songs that I put in a tempogram, are really different. Their tempi is also really apart. The song Highest In The Room is for both our playlist really fast (155 - 160 BPM). The other song, Apocalypse, is really slow compared to our means (80 - 100 BPM). 
+
+In the classification visualizations we saw that I also listen to music that could appear in the playlist of Pim. But not the other way around. I think this is because I started to listen to hiphop more last year, and that's because of Pim. 
 
 What would be interesting is to look at the results from this year and the results of upcoming year. If I keep doing this in the upcoming years, I can compare all the results and see if there is a specific movement. Are we growing to each other? Or do we keep our own taste in music? Or maybe our musictastes will melt together. I think it would be interesting to keep looking at this.  
 

@@ -658,9 +658,13 @@ spotify_2019 %>%
 ```
 
 ***
-I made a confusion matrix of our playlists. You can see that the differences are pretty clear and that the predictions are about 75% correct. But you also can see here, that Pim is clearer than I am. It varies only two (or one) songs but the prediction that a song belongs in Pim's playlist when it really belongs to mine, occur more than the prediction that a song belongs in my playlist when in fact it belongs in Pim's. So I would conclude out this figure that I' more flexible than Pim is.
+I made a confusion matrix of our playlists. You can see that the differences are pretty clear and that the predictions are about 75% correct. But you also can see here, that Pim is clearer than I am. The first time I ran this, it varied only two (or one) songs but the prediction that a song belongs in Pim's playlist when it really belongs to mine, occured more than the prediction that a song belongs in my playlist when in fact it belongs in Pim's. So I would conclude out this figure that I' more flexible than Pim is. 
 
-You can also see this in the plot. The songs that belongs in my playlist, are more spread out over the whole plot. The songs of Pim's playlist, are very close to each other. Also there is more variation in liveness in my playlist. 
+Now it changed and it looks like the prediction that a song belongs to my playlist when it actually belongs to Pims, occurs more. The first outcomes are more logic to me, and matches better with the plot. 
+
+In the plot you see the songs that belongs in my playlist, are more spread out over the whole plot. The songs of Pim's playlist, are very close to each other. So that it is more clear which songs belongs in Pim's playlist and that it is more vague which songs belongs to mine. 
+
+Like we saw in the table of all Spotify features, there is almost the same difference in liveness in our playlists. 
 
 Note: my confusion matrix changes everytime I run the code. So maybe my information differs from the matrix... But the plot is there to be a stable factor.
 

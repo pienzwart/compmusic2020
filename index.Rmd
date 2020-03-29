@@ -27,19 +27,19 @@ library(compmus)
 ```
 
 
-### Pien versus Pim
+### Pien Versus Pim
 
 For my corpus, I would like to compare my Spotify Wrapped playlist of 2019 to the one of my boyfriend, Pim. Our taste in music is very different and those lists are representing this difference. 
 
-I think it’s interesting to compare these two playlists. I’m more into soft pop music, singer-/songwriters, also a little classical music, film music, etc. And Pim is more into Drum & Bass, Rap, Hiphop, etc. But we appreciate each others taste of music increasingly since we've been together. For a research question I would think of how different our music tastes really are. At first glance, they are very different. But maybe there are some underlying similarities. And what those differenses and similarities mean.
+I think it’s interesting to compare these two playlists. I’m more into soft pop music, singer-/songwriters, also a little classical music, film music, etc. And Pim is more into Drum & Bass, Rap, Hiphop, etc. But we appreciate each others taste of music increasingly since we've been together. For a research question I would think of how different our music tastes really are. At first glance, they are very different. But maybe there are some underlying similarities. And what do these differenses and similarities mean.
 
-The meaning of music is also different. Pim doesn't like to really listen to en think about lyrics of songs. He just want to feel it physically, especially the beat, and dance or focus. I really love to feel music emotionally and think about lyrics. For me is music a way to express feelings. 
+The meaning of music is also different. Pim doesn't like to really listen to en think about lyrics of songs. He just want to feel it physically, especially the beat, and dance or focus. I really love to feel music emotionally and think about lyrics. For me, music is a way to express feelings. 
 
 I'm going to look at the similarities and differences in our playlists. First I will compare the whole playlists. By doing that, I will get a clear overview of my corpus. After that, I am going to take a deeper look by comparing specific songs of our playlists. I will be doing this for chroma and timbre, key, tempo and classification.
 
 
 
-### Pim is dancing a lot more
+### Pim Is Dancing A Lot More
 
 ```{r}
 pien_2019 <- get_playlist_audio_features('spotify', '37i9dQZF1EtqET0jdwPeZm')
@@ -99,7 +99,7 @@ ggplotly(dancing)
 I have some interesting first findings, measured by Spotify.   
 The music that Pim listens to is more danceable (M = 0.72, SD = 0.13) than the music I listen to (M = 0.48, SD = 0.19). Also there is a difference in energy. Pim’s playlist is way more energetic (M = 0.68, SD = 0.18) than mine (M = 0.34, SD = 0.25). If we look at the loudness category, Pim’s playlist is louder (M = -6.72, SD = 2.41) than mine (M = -14.1, SD = 8.79). In the figure below, we can see the differences that I discussed above. In Pim's figure, almost all of the points/dots are on the top right. This means, that the the energy and danceability is very high. The loudness is indicated with the size of the points/dots. In my figure, the points/dots are more spread out. But almost all the points/dots are very small. So in the size (loudness), Pim is more diverse. And my figure is more stable. Which I think is a little strange because my standard deviation is a lot bigger than Pim's. To make this more clear, I made a figure of the loudness in the next tab. 
 
-### Pim is louder but I am varied
+### Pim Is Louder But I Am More Varied
 
 ```{r fig.width=5, fig.height=8}
 loudness <- spotify_wrapped_2019 %>%
@@ -110,20 +110,20 @@ ggplotly(loudness)
 ```
 
 ***
-In the figure we see that Pim is more specific and I am more diverse and stable. This makes more sense than the other figure. My standard deviation of loudness is large because I listen to more different types of music. A reason for this could be that I have to listen a lot of music for my study, musicology. And this is especially classical music. Therefore, I will look, from now on, more at the part where there are more similarities and leave the bottom left side of my playlist as kind of outliers. I will do this because otherwise the differences become really big and not very useful. 
+In the figure we see that Pim is more specific and I am more diverse and stable. This makes more sense than the other figure. My standard deviation of loudness is large because I listen to more different types of music. A reason for this could be that I have to listen a lot of music for my study, musicology. And this is especially classical music. Therefore, from now on, I will look more at the part where there are more similarities and leave the bottom left side of my playlist as kind of outliers. I will do this because otherwise the differences become really big and not very useful. 
 
-### We do have similarities!
+### We Do Have Similarities!
 
 
 This table shows us a summery of all the Spotify features. In the previous tabs I discussed the difference in Danceability, Energy and Loudness. If we look at the Acousticness, there is also a quit large difference. 
 
-But there are also similarities like the Keys of our playlists. If we look at the results of Pim in this category, it would mean in the pitch class: F/F#. My results for Key would mean in pitch class: E/F. 
+But there are also similarities like the Keys of our playlists. If we look at the results of Pim in this category, it would mean in the pitch class: F/F#. My results for Key would mean in pitch class: E/F. Later in this portfolio, I will take a look at the keys of two specific songs.
 
 Also the modes are close to each other. In the table we see that Pim en I both listen to major, minor and everything in between.
 
 Apparently, Pim en I are both not really into cheerful music. We score pretty low on Valence, especially I am. But I didn't expect that Pim would be pretty close. 
 
-The results of speechiness seems a little extreme to me. Despite the fact that Pim listens to rap, the results are very low. I would expect that the results of the speechiness in Pim’s playlist would be between 0.33 and 0.66. I don’t think I have to exclude this because it might be an interesting thing to investigate more. 
+The results of speechiness seems a little extreme to me. Despite the fact that Pim listens to rap, the results are very low. I would expect that the results of the speechiness in Pim’s playlist would be between 0.33 and 0.66. I don’t think I have to exclude this because I think that it won't have impact. It might be an interesting thing to investigate more. But for now I think it is better to focus more on the other features. 
 
 *** 
 
@@ -183,7 +183,7 @@ Valence        | Mean |  SD  |
 
 
 
-### There are only two songs that appear in both of our playlists.
+### There Are Only Two Songs That Appear In Both Of Our Playlists.
 
 ```{r}
 apocalypse <- 
@@ -225,10 +225,11 @@ highest %>%
 ```
 
 ***
-There are only two songs that appear in both our playlists. Those songs are Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott. These songs are very very different so I put them both in a chromagram. In the chromagram of Apocalypse, there are a lot of little blue pieces. Mostly at A, F, D and C through the whole song. In the mittle of the song, there is a blue part at G. 
-In the chromagram of Highest In The Room, there are blue sections. First a section with E and F, then a sections between C and D. These sections alternate. At almost the end of the song, it turns to something different. Here is more blue at A#/Bb, G and D. 
+There are only two songs that appear in both our playlists. Those songs are Apocalypse by Cigarettes After Sex and Highest In The Room by Travis Scott. These songs are very very different but they could have something in common. 
+In the chromagram of Apocalypse, there are a lot of little blue pieces. Mostly at A, F, D and C through the whole song. In the mittle of the song, there is a blue part at G. 
+In the chromagram of Highest In The Room, there are blue sections. This song seems to have more structure. First there is a section with E and F, then a sections between C and D and these sections alternate. At almost the end of the song, it turns to something different. Here is more blue at A#/Bb, G and D. 
 
-### How are the structures of our most danceable songs?
+### How Are The Structures Of Our Most Danceable Songs?
 
 ```{r}
 
@@ -369,7 +370,7 @@ In the grams of Hunnybee, there is not really a clear structure. There is a beat
 
 So these songs don't have a lot similarities. They both have a deviation in their structur, but their structures are really different. What they do have in common is that in both songs, there is a beat that continues almost the whole songs. So I think that's why they both score high on danceability. 
 
-### The keys of our energetic songs
+### The Keys Of Our Most Energetic Songs
 
 ```{r}
 circshift <- function(v, n) {if (n == 0) v else c(tail(v, n), head(v, -n))}
@@ -499,9 +500,9 @@ The keygram of Lions Don't Cry is very clear. It says that almost the whole song
 
 The keygram of Aguella is not so clear. I think that this is a hard song to analyze because it is electronic music. In the keygram the B minor and major, F# minor and Ab major are really dark. According to Chordify, this song is in G# minor. The Ab major can be a confusion with G# because that is the same tone. And in chordify there is sometimes a G# major present. The G# minor is in the keygram quite light and that is really strange because the G# minor chords appears a lot in the song. Also according to Chordify, the chord D# minor appears a lot. But in the key G# minor, D# would be the fifth/V and that should be a major chord. But the key of this song (G# minor) is clear. 
 
-But of course these are keygram and both of them are showing the keys clearly. They don't really show the chords in the songs. The songs don't have a lot in common, only that they are both energetic. I think that the keygram of Lions don't cry is more clear because that song is made with recognizable instruments and Aguella is really electronic and maybe harder to recognize.
+But of course these are keygrams and both of them are showing the keys clearly. They don't really show the chords in the songs. The songs don't have a lot in common, only that they are both energetic. I think that the keygram of Lions don't cry is more clear because that song is made with recognizable instruments and Aguella is really electronic and maybe harder to recognize.
 
-### Highest In The Room and Apocalypse are really different in tempo
+### Highest In The Room And Apocalypse Are Really Different In Tempo
 
 ```{r}
 highest_tempo <- get_tidy_audio_analysis('3eekarcy7kvN4yt5ZFzltW')
@@ -532,12 +533,14 @@ For the tempograms, I picked the only two songs that appear in both our playlist
 
 You can see in the tempograms, that Highest In The Room by Travis Scott scores really high in tempo. It is almost the whole song about 155 BPM and sometimes it even reaches the 160 BPM. 
 
-In the tempogram of Apocalypse by Cigarettes After Sex that the this song is really slow. It is about 90 BPM. Sometimes it is almost 100 BPM and sometimes  it is even on the lowest point of the tempogram, 80 BPM. 
+In the tempogram of Apocalypse by Cigarettes After Sex that the this song is really slow. It is about 90 BPM. Sometimes it is almost 100 BPM and sometimes it is even on the lowest point of the tempogram, 80 BPM. 
+
+If we look back at the table in my similarities, we see that the mean of my tempo is 113 BPM with a standard deviation of 32.2. The song Highest In The Room is really fast for my playlist and Apocalypse is almost on the bottom edge. The mean of Pim's tempo is 129 BPM with a standard deviation of 30.8. Here are both songs really on the edge of the tempo range. Highest In The Room is on the top and Apocalypse on the bottom.  
 
 So I can conclude here that the two songs differs a lot in tempo. It is almost the exact opposite. Still we both really like these songs. Maybe our tastes in genres are not that different, only the levels in the genres. 
 
 
-### My songs are more spread out
+### My Songs Are More Spread Out
 
 
 ```{r}
@@ -663,7 +666,7 @@ Note: my confusion matrix changes everytime I run the code. So maybe my informat
 
 
 
-### My conclusion
+### The Conclusion Of My Corpus
 
 For now, I can conclude that my boyfriend and I really have different tastes in music genres. But sometimes there are a few similarities. I think that it would be really interesting to look in a few years, what the differences are then. It is a pity that I don't have these wrapped up lists from the other years that we've been together. Because it would be interesting to compare all those lists. 
 
@@ -671,11 +674,11 @@ I think that I listen to a lot more different genres than Pim does. I've focused
 
 In the results, we've seen that Pim's playlist is more danceable and mine is more acoustic. I've also discussed our similarities and we both listen to major and minor but not really cheerful music. The mean in key of my playlist is E/F. And de mean in key in the playlist of Pim is F/F#. If we compare this to the keygrams I made, it is right. The keygram of Lions Don't Cry from my playlist is in E minor. And the keygram of Aguella from Pim's playlist is in G# minor. My most energetic song is a little bit closer to my mean than Pim's most energetic song.
 
-If we look at the tempograms and compare these with the means of tempo, we see also something interesting. The mean of tempo in my playlist is 113. In Pim's playlist the mean of tempo is 129. The two songs that I put in a tempogram, are really different. Their tempi is also really apart. The song Highest In The Room is for both our playlist really fast (155 - 160 BPM). The other song, Apocalypse, is really slow compared to our means (80 - 100 BPM). 
+If we look at the tempi, the songs that I compared are really opossites but they're presenting the differences of tempo in both of our playists and similarities in our playlists. The differences in our music tastes are not in tempo, but more in loudness, danceability and energy. 
 
 In the classification visualizations we saw that I also listen to music that could appear in the playlist of Pim. But not the other way around. I think this is because I started to listen to hiphop more last year, and that's because of Pim. 
 
-What would be interesting is to look at the results from this year and the results of upcoming year. If I keep doing this in the upcoming years, I can compare all the results and see if there is a specific movement. Are we growing to each other? Or do we keep our own taste in music? Or maybe our musictastes will melt together. I think it would be interesting to keep looking at this.  
+What would be interesting is to look at the results from this year and the results of upcoming years. If I keep doing this in the upcoming years, I can compare all the results and see if there is a specific movement. Are we growing to each other? Or do we keep our own taste in music? Or maybe our music tastes will melt together. I think it would be interesting to keep looking at this and see the differences of every year.   
 
 
 
